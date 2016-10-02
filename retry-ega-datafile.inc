@@ -5,5 +5,5 @@ retry-ega-datafile ()
     param '$1 - the pathname (beginning at /) of the file to re-download'
     example ''
     group 'external'
-    curl -n --rate-limit 200k -o "$1" ftp://xfer.crg.eu/$1
+    curl -n --limit-rate=200k -o "$1" ftp://xfer.crg.eu/$1
 }
