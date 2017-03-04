@@ -1,4 +1,4 @@
-ega-retry-datafile ()
+ega_retry_datafile ()
 {
     author 'Kevin Ernst';
     about 'Repeat a failed download from ftp://xfer.crg.eu';
