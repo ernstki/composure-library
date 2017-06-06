@@ -8,7 +8,7 @@ split_bed_twice ()
 
     suffix=.bed
 
-    if [ ! -f "$1" -o ! -f "${1}.bed" ]; then
+    if [ ! -f "$1" -a ! -f "${1}.bed" ]; then
         echo "ACK! File '$1' doesn't exist or isn't readable." >&2
         return 1
     fi
