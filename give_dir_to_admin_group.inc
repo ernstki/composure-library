@@ -1,7 +1,7 @@
 give_dir_to_admin_group ()
 {
     author 'Kevin Ernst'
-    about 'Gives the name'
+    about 'Gives the host-specific admin group permissions the named directory'
     param '$1 (optional) - the directory to grant permissions'
     example 'give_dir_to_admin_group .'
     group 'sysadmin'
