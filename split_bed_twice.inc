@@ -10,7 +10,7 @@ split_bed_twice ()
 
     if [ ! -f "$1" -o ! -f "${1}.bed" ]; then
         echo "ACK! File '$1' doesn't exist or isn't readable." >&2
-        exit 1
+        return 1
     fi
 
     if [[ $1 =~ \.bed$ ]]; then
