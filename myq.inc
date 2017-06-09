@@ -21,17 +21,20 @@ myq ()
         return 1
     fi
 
-    # If the first argument has any spaces in it, then assume the default table
-    if [[ ! $1 =~ \  ]]; then
-        db=$1
-        shift
-    fi
+    while (( #$ )); do
+        # If the first argument looks like a table name...
+        if [[ ! $1 =~ [[:space:]] ]]; then
+            db=$1
+            shift
+            continue
+        fi
 
-    # automatically append a semicolon
-    sql=$1
-    if [[ ! $sql =~ \;$ ]]; then
-        sql="${sql};"
-    fi
+        # automatically append a semicolon
+        sql=$1
+        if [[ ! $sql =~ \;$ ]]; then
+            sql="${sql};"
+        fi
+    done
 
     mysql -h $myhost $db <<<"$sql"
     set +x
