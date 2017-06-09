@@ -27,8 +27,7 @@ myq ()
     fi
 
     # automatically append a semicolon
-    sql=$1
-    if [[ ! $sql =~ \;$ ]]; then
+    if [[ ! $1 =~ \;$ ]]; then
         sql="${sql};"
     fi
 
