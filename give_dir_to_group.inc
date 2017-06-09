@@ -5,7 +5,7 @@ give_dir_to_group ()
     param '$1 - the directory on which to set permissions'
     param '$2 - (optional) group to grant access; default: oA-SA-<hostname>'
     param '-r - recursively set permissions for the named group'
-    example 'give_dir_to_admin_group .'
+    example 'give_dir_to_group .'
     group 'sysadmin'
 
     # see which host we're on, and whether a sysadmin group exists
@@ -16,7 +16,7 @@ give_dir_to_group ()
     recursive=false
 
     if [ $# -eq 0 -o $# -gt 3 ]; then
-        echo "$(reference give_dir_to_admin_group)" >&2
+        echo "$(reference give_dir_to_group)" >&2
         echo >&2
         echo "ERROR: wrong number of arguments (min: 1, max: 3)" >&2
         return 1
@@ -30,7 +30,7 @@ give_dir_to_group ()
         elif [[ $1 =~ ^--?r ]]; then
             recursive=true
         else
-            echo "$(reference give_dir_to_admin_group)" >&2
+            echo "$(reference give_dir_to_group)" >&2
             echo >&2
             echo "ERROR: unrecognized parameter '$1'" >&2
             return 1
@@ -40,7 +40,7 @@ give_dir_to_group ()
 
     # If user didn't supply a directory, bail out:
     if [ -z "$dir" ]; then
-        echo "$(reference give_dir_to_admin_group)" >&2
+        echo "$(reference give_dir_to_group)" >&2
         echo >&2
         echo 'ERROR: missing parameter $1 (dir to set permissions)' >&2
         return 1
