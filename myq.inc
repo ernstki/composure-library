@@ -6,7 +6,6 @@ myq ()
     param '$2 - quoted string of SQL commands to execute'
     example 'mq hg19_data_summary_table "'
     group ''
-    mysql -h bmirschd04my.chmcres.cchmc.org bedintersect <<< 'show tables'
 
     myhost=
     db=bedintersect
