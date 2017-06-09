@@ -3,7 +3,7 @@ give_dir_to_admin_group ()
     author 'Kevin Ernst'
     about 'Gives (inherited) read/write/execute permissions to a directory'
     param '$1 - the directory on which to set permissions'
-    param '$2 - (optional) the group for which to grant access'
+    param '$2 - (optional) group to grant access; default: oA-SA-<hostname>'
     param '-r - recursively set permissions for the named group'
     example 'give_dir_to_admin_group .'
     group 'sysadmin'
@@ -55,8 +55,8 @@ give_dir_to_admin_group ()
         set +x
     else
         set -x
-        sudo setfacl -d -m g:o${admingroup}:rwx "$dir"
-        sudo setfacl -m g:o${admingroup}:rwx "$dir"
+        sudo setfacl -d -m g:${admingroup}:rwx "$dir"
+        sudo setfacl -m g:${admingroup}:rwx "$dir"
         set +x
     fi
 }
