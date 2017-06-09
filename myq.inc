@@ -21,7 +21,7 @@ myq ()
         return 1
     fi
 
-    while (( #$ )); do
+    while (( $# )); do
         # If the first argument looks like a table name...
         if [[ ! $1 =~ [[:space:]] ]]; then
             db=$1
@@ -34,6 +34,7 @@ myq ()
         if [[ ! $sql =~ \;$ ]]; then
             sql="${sql};"
         fi
+        shift
     done
 
     mysql -h $myhost $db <<<"$sql"
