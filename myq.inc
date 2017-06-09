@@ -10,7 +10,7 @@ myq ()
     set -x
     myhost=
     db=bedintersect
-    sql='show tables'
+    sql='show tables;'
 
     if [[ $(hostname -s) =~ p[0-9]$ ]]; then
         myhost=bmirschp04my.chmcres.cchmc.org
@@ -21,10 +21,6 @@ myq ()
         return 1
     fi
 
-    echo $#
-    set +x
-    return 1
-
     while (( $# )); do
         # If the first argument looks like a table name...
         if [[ ! $1 =~ [[:space:]] ]]; then
@@ -33,12 +29,13 @@ myq ()
             continue
         fi
 
-        # automatically append a semicolon
         sql=$1
+        shift
+
+        # automatically append a semicolon if missing
         if [[ ! $sql =~ \;$ ]]; then
             sql="${sql};"
         fi
-        shift
     done
 
     mysql -h $myhost $db <<<"$sql"
