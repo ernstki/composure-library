@@ -12,9 +12,9 @@ myq ()
     db=bedintersect
     sql='show tables'
 
-    if [ $(hostname) =~ p\d+$ ]; then
+    if [ $(hostname) =~ p[0-9]$ ]; then
         myhost=bmirschp04my.chmcres.cchmc.org
-    elif [ $(hostname) =~ p\d+$ ]; then
+    elif [ $(hostname) =~ p[0-9]$ ]; then
         myhost=bmirschd04my.chmcres.cchmc.org
     else
         echo "ACK! Must run this script on either a p1/d1 host" >&2
