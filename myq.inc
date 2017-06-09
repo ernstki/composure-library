@@ -28,8 +28,9 @@ myq ()
     fi
 
     # automatically append a semicolon
-    if [[ ! $1 =~ \;$ ]]; then
-        sql="${sql};"
+    sql=$1
+    if [[ ! $sql =~ \;$ ]]; then
+        sql=${sql};
     fi
 
     mysql -h $myhost $db <<<"$sql"
