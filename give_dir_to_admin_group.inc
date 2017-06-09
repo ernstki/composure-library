@@ -1,4 +1,4 @@
-give_dir_to_admin_group ()
+give_dir_to_group ()
 {
     author 'Kevin Ernst'
     about 'Gives (inherited) read/write/execute permissions to a directory'
