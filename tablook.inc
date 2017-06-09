@@ -1,9 +1,9 @@
 tablook ()
 {
     author 'Kevin Ernst'
-    about ''
-    param ''
-    example ''
+    about 'Pretty-print a tab-delimited file'
+    param '$1 - tab-delimited file name'
+    example 'tablook file1.tab'
     group ''
-    csvlook -d '	' track_line_tf_combined.tab
+    csvlook -d $'\t' "$1"
 }
