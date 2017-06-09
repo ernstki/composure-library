@@ -27,7 +27,7 @@ give_dir_to_admin_group ()
             dir=$1
         elif getent group "$1" >/dev/null 2>&1; then
             admingroup=$1
-        elif [[ "$1" =~ ^--?r ]]; then
+        elif [[ $1 =~ ^--?r ]]; then
             recursive=true
         else
             echo $(reference give_dir_to_admin_group) >&2
@@ -46,10 +46,19 @@ give_dir_to_admin_group ()
         exit 1
     fi
 
-    sudo setfacl -d -m g:o${admingroup}:rwx "$1"
-    sudo setfacl -m g:o${admingroup}:rwx "$1"
-    
-    #if [ 
+    if [ "$recursive" = 'true' ]; then
+        # I don't think the quotes are required around the '{}' below
+        set -x
+        find "$dir" -type f -exec sudo setfacl -m g:${admingroup}:rw "{}" +
+        find "$dir" -type d -exec sudo setfacl -m g:${admingroup}:rwx "{}" +
+        find "$dir" -type d -exec sudo setfacl -d -m g:${admingroup}:rwx "{}" +
+        set +x
+    else
+        set -x
+        sudo setfacl -d -m g:o${admingroup}:rwx "$dir"
+        sudo setfacl -m g:o${admingroup}:rwx "$dir"
+        set +x
+    fi
 }
 
 # vim:ft=sh
