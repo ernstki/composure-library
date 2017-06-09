@@ -62,4 +62,4 @@ give_dir_to_group ()
     fi
 }
 
-# vim:ft=sh
+# vim: ft=sh
