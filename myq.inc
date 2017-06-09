@@ -22,7 +22,7 @@ myq ()
     fi
 
     echo $#
-    exit
+    return 1
 
     while (( $# )); do
         # If the first argument looks like a table name...
