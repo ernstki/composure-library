@@ -22,6 +22,7 @@ myq ()
     fi
 
     echo $#
+    set +x
     return 1
 
     while (( $# )); do
