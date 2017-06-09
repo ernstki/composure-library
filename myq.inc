@@ -4,10 +4,9 @@ myq ()
     about 'Query propriate dev/prod MySQL server (using credentials in ~/.my.cnf)'
     param '$1 - (optional) database name; default "bedintersect"'
     param '$2 - quoted string of SQL commands to execute'
-    example 'mq hg19_data_summary_table "'
-    group ''
+    example 'mq bedintersect "select * from gene_aliases"'
+    group 'dba'
 
-    set -x
     myhost=
     db=bedintersect
     sql='show tables;'
@@ -39,7 +38,6 @@ myq ()
     done
 
     mysql -h $myhost $db <<<"$sql"
-    set +x
 }
 
 # vim: ft=sh
