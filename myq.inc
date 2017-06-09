@@ -30,7 +30,7 @@ myq ()
     # automatically append a semicolon
     sql=$1
     if [[ ! $sql =~ \;$ ]]; then
-        sql=${sql};
+        sql="${sql};"
     fi
 
     mysql -h $myhost $db <<<"$sql"
