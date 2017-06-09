@@ -7,6 +7,7 @@ myq ()
     example 'mq hg19_data_summary_table "'
     group ''
 
+    set -x
     myhost=
     db=bedintersect
     sql='show tables'
@@ -31,9 +32,7 @@ myq ()
         sql="${sql};"
     fi
 
-    set -x
     mysql -h $myhost $db <<<"$sql"
-    set +x
 }
 
 # vim: ft=sh
