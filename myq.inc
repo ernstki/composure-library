@@ -21,6 +21,9 @@ myq ()
         return 1
     fi
 
+    echo $#
+    exit
+
     while (( $# )); do
         # If the first argument looks like a table name...
         if [[ ! $1 =~ [[:space:]] ]]; then
