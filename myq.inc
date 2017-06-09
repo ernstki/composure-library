@@ -21,7 +21,7 @@ myq ()
     fi
 
     # If the first argument has any spaces in it, then assume the default table
-    if [[ ! $1 =~ ' ' ]]; then
+    if [[ ! $1 =~ \  ]]; then
         db=$1
         shift
     fi
