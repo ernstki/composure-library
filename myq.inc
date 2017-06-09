@@ -33,6 +33,7 @@ myq ()
     fi
 
     mysql -h $myhost $db <<<"$sql"
+    set +x
 }
 
 # vim: ft=sh
