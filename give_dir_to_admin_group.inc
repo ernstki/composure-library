@@ -15,11 +15,11 @@ give_dir_to_admin_group ()
     dir=
     recursive=false
 
-    if [ $# -eq 0 -o $# -gt 2 ]; then
-        echo $(reference give_dir_to_admin_group) >&2
+    if [ $# -eq 0 -o $# -gt 3 ]; then
+        echo "$(reference give_dir_to_admin_group)" >&2
         echo >&2
-        echo "ERROR: wrong number of arguments (min: 1, max: 2)" >&2
-        exit 1
+        echo "ERROR: wrong number of arguments (min: 1, max: 3)" >&2
+        return 1
     fi
 
     while (( $# )); do
@@ -30,20 +30,20 @@ give_dir_to_admin_group ()
         elif [[ $1 =~ ^--?r ]]; then
             recursive=true
         else
-            echo $(reference give_dir_to_admin_group) >&2
+            echo "$(reference give_dir_to_admin_group)" >&2
             echo >&2
             echo "ERROR: unrecognized parameter '$1'" >&2
-            exit 1
+            return 1
         fi
         shift
     done
 
     # If user didn't supply a directory, bail out:
     if [ -z "$dir" ]; then
-        echo $(reference give_dir_to_admin_group) >&2
+        echo "$(reference give_dir_to_admin_group)" >&2
         echo >&2
         echo 'ERROR: missing parameter $1 (dir to set permissions)' >&2
-        exit 1
+        return 1
     fi
 
     if [ "$recursive" = 'true' ]; then
