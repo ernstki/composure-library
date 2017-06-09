@@ -47,11 +47,12 @@ give_dir_to_admin_group ()
     fi
 
     if [ "$recursive" = 'true' ]; then
-        # I don't think the quotes are required around the '{}' below
+        # I don't think quotes are required around the '{}' below, even if the
+        # filename has spaces in it
         set -x
-        find "$dir" -type f -exec sudo setfacl -m g:${admingroup}:rw "{}" +
-        find "$dir" -type d -exec sudo setfacl -m g:${admingroup}:rwx "{}" +
-        find "$dir" -type d -exec sudo setfacl -d -m g:${admingroup}:rwx "{}" +
+        find "$dir" -type f -exec sudo setfacl -m g:${admingroup}:rw {} +
+        find "$dir" -type d -exec sudo setfacl -m g:${admingroup}:rwx {} +
+        find "$dir" -type d -exec sudo setfacl -d -m g:${admingroup}:rwx {} +
         set +x
     else
         set -x
