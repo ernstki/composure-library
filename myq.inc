@@ -68,7 +68,8 @@ myq ()
 
     shorthost=${mysqlhost%%.*}
     if [ -z "$quiet" ];  then
-        echo "Running SQL query [db:$db, host:${shorthost}]" >&2
+        echo >&2
+        echo "Running SQL query [db: $db, host: ${shorthost}]" >&2
         echo >&2
         echo "  $( fold -sw72 <<<"$sql" | sed 's/\(.*\)/>  \1/' )" >&2
         echo >&2
