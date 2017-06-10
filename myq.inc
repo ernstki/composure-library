@@ -70,11 +70,11 @@ myq ()
     # the MySQL manual for details:
     # https://dev.mysql.com/doc/refman/5.7/en/option-file-options.html
     if grep -qE "^[[:space:]]*\[client:${shorthost}" ~/.my.cnf; then
-        cmd="mysql --defaults-group-suffix=:$shorthost $mysqlargs $db <<<'$sql'"
+        cmd="mysql --defaults-group-suffix=:$shorthost $mysqlargs $db <<<\"$sql\""
     else
         echo "WARNING: No group for '$shorthost' found in ~/.my.cnf" >&2
         echo "         Will use default credentials from '[client]' section" >&2
-        cmd="mysql -h $myhost $mysqlargs $db <<<'$sql'"
+        cmd="mysql -h $myhost $mysqlargs $db <<<\"$sql\""
     fi
 
     # Actually do it
