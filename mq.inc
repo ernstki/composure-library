@@ -1,16 +1,16 @@
 mq ()
 {
     author 'Kevin Ernst'
-    about 'Query propriate dev/prod MySQL server (using credentials in ~/.my.cnf)'
-    param "\$1 - (optional) database host; default 'bmirsch{p|d}04my'"
-    param "\$2 - (optional) database name; default 'bedintersect'"
-    param "\$3 - (optional) options to 'mysql', e.g., '--skip-column-names'"
-    param "\$4 - quoted string of SQL commands to execute"
+    about 'Query appropriate dev/prod MySQL server (using credentials in ~/.my.cnf)'
+    param "$1 (optional) database host; default 'bmirsch{p|d}04my' "
+    param "$2 (optional) database name; default 'bedintersect' "
+    param "$3 (optional) options to 'mysql', e.g., '--skip-column-names' "
+    param "$4  quoted string of SQL commands to execute"
     param "-q | --quiet - raw output, no extraneous messages"
-    example "mq  # lists tables in 'bedintersect' database"
-    example "mq 'select * from gene_aliases'  # default db is 'bedintersect'"
-    example "mq --html localhost cressint 'select * from gene_aliases'"
-    example "mq -q --column-names 'select * from gene_aliases limit 10'"
+    example "$ mq  # default query is 'list tables' "
+    example "$ mq 'select * from gene_aliases'  # default db is 'bedintersect' "
+    example "$ mq --html localhost cressint 'select * from gene_aliases' "
+    example "$ mq -q --column-names 'select * from gene_aliases limit 10' "
     group 'dba'
 
     quiet=
@@ -49,6 +49,9 @@ mq ()
                 quiet='ssssssshhhhhh'
                 # h/t: https://stackoverflow.com/a/16861932
                 mysqlargs=( ${mysqlargs[*]/'--table'} '--skip-column-names' )
+            elif [[ $1 =~ ^--?h ]]; then
+                reference mq
+                return
             else
                 # FIXME: quoted options almost definitely not preserved here
                 mysqlargs=( ${mysqlargs[*]} $1 )
