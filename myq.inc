@@ -2,12 +2,12 @@ myq ()
 {
     author 'Kevin Ernst'
     about 'Query propriate dev/prod MySQL server (using credentials in ~/.my.cnf)'
-    param '$1 - (optional) database host; default "bmirsch{p|d}04my"'
-    param '$2 - (optional) database name; default "bedintersect"'
-    param '$3 - (optional) mysql options, e.g., "--skip-column-names"'
-    param '$4 - quoted string of SQL commands to execute'
-    example 'mq bedintersect "select * from gene_aliases"'
-    example 'mq -H localhost cressint "select * from gene_aliases"'
+    param "\$1 - (optional) database host; default 'bmirsch{p|d}04my'"
+    param "\$2 - (optional) database name; default 'bedintersect'"
+    param "\$3 - (optional) options to 'mysql', e.g., '--skip-column-names'"
+    param "\$4 - quoted string of SQL commands to execute"
+    example "mq bedintersect 'select * from gene_aliases'"
+    example "mq -H localhost cressint 'select * from gene_aliases'"
     group 'dba'
     group 'mysql'
 
