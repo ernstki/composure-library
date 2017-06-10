@@ -11,6 +11,7 @@ myq ()
     group 'dba'
     group 'mysql'
 
+    quiet=
     myhost=
     db=bedintersect
     sql='show tables;'
@@ -35,7 +36,12 @@ myq ()
 
         # If the argument looks like a command-line option...
         if [[ $1 =~ ^- ]]; then
-            mysqlargs="$mysqlargs $1"
+            if [[ $1 =~ ^--?q ]]; then
+                # suppress output to stderr
+                quiet='ssssssshhhhhh'
+            else
+                mysqlargs="$mysqlargs $1"
+            fi
             shift; continue
         fi
             
@@ -52,23 +58,32 @@ myq ()
     done
 
     shorthost=${myhost%%.*}
-    echo "Executing the following SQL on ${shorthost}:" >&2
-    echo >&2
-    echo $( fold -sw72 <<<"$sql" | sed 's/\(.*\)/  >  \1/' ) >&2
-    echo >&2
+    if [ -z "$quiet" ];  then
+        echo "Executing the following SQL on ${shorthost}:" >&2
+        echo >&2
+        echo "  $( fold -sw72 <<<"$sql" | sed 's/\(.*\)/>  \1/' )" >&2
+        echo >&2
+    fi
 
     # If a group exists like '[client:hostname]' in ~/.my.cnf, then use all the
     # parameters defined there, including hostname. Refer to this section of
     # the MySQL manual for details:
     # https://dev.mysql.com/doc/refman/5.7/en/option-file-options.html
     if grep -qE "^[[:space:]]*\[client:${shorthost}" ~/.my.cnf; then
-        (set -x; mysql --defaults-group-suffix=:$shorthost $mysqlargs $db <<<"$sql")
+        cmd="mysql --defaults-group-suffix=:$shorthost $mysqlargs $db <<<'$sql'"
     else
         echo "WARNING: No group for '$shorthost' found in ~/.my.cnf" >&2
         echo "         Will use default credentials from '[client]' section" >&2
-        (set -x; mysql -h $myhost $mysqlargs $db <<<"$sql")
+        cmd="mysql -h $myhost $mysqlargs $db <<<'$sql'"
     fi
-    echo >&2
+
+    # Actually do it
+    if [ -z "$quiet" ]; then
+        (set -x; $cmd)
+        echo >&2
+    else
+        $cmd
+    fi
 }
 
 # vim: ft=sh
