@@ -12,7 +12,6 @@ mq ()
     example "mq --html localhost cressint 'select * from gene_aliases'"
     example "mq -q --column-names 'select * from gene_aliases limit 10'"
     group 'dba'
-    group 'mysql'
 
     quiet=
     mysqlhost=
