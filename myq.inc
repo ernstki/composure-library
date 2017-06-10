@@ -14,8 +14,9 @@ myq ()
     myhost=
     db=bedintersect
     sql='show tables;'
-    # default arguments to pass to 'mysql'
-    mysqlargs=--no-auto-rehash
+    # default arguments to pass to 'mysql'; you can turn column names back on
+    # with '--column-names' if you want
+    mysqlargs='--no-auto-rehash --skip-column-names'
 
     # Default to the BMI MySQL server on the same side of the research bubble
     # as the host you're logged in to
