@@ -1,4 +1,4 @@
-myq ()
+mq ()
 {
     author 'Kevin Ernst'
     about 'Query propriate dev/prod MySQL server (using credentials in ~/.my.cnf)'
@@ -6,8 +6,11 @@ myq ()
     param "\$2 - (optional) database name; default 'bedintersect'"
     param "\$3 - (optional) options to 'mysql', e.g., '--skip-column-names'"
     param "\$4 - quoted string of SQL commands to execute"
-    example "mq bedintersect 'select * from gene_aliases'"
-    example "mq -H localhost cressint 'select * from gene_aliases'"
+    param "-q | --quiet - raw output, no extraneous messages"
+    example "mq  # lists tables in 'bedintersect' database"
+    example "mq 'select * from gene_aliases'  # default db is 'bedintersect'"
+    example "mq --html localhost cressint 'select * from gene_aliases'"
+    example "mq -q --column-names 'select * from gene_aliases limit 10'"
     group 'dba'
     group 'mysql'
 
