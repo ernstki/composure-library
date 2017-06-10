@@ -45,7 +45,7 @@ myq ()
     # parameters defined there, including hostname. Refer to this section of
     # the MySQL manual for details:
     # https://dev.mysql.com/doc/refman/5.7/en/option-file-options.html
-    if test -r ~/.my.cnf && grep -qE "^[[:space:]]+\[client:${shorthost}"; then
+    if grep -qE "^[[:space:]]+\[client:${shorthost}" ~/.my.cnf; then
         mysql --defaults-group-suffix=:$shorthost $db <<<"$sql"
     else
         echo "WARNING: No group for '$shorthost' found in ~/.my.cnf" >&2
