@@ -33,6 +33,8 @@ mq ()
         mysqlhost=bmirschp04my.chmcres.cchmc.org
     elif [[ $(hostname -s) =~ d[0-9]$ ]]; then
         mysqlhost=bmirschd04my.chmcres.cchmc.org
+    else
+        mysqlhost=localhost
     fi
 
     while (( $# )); do
