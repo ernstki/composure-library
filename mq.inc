@@ -1,17 +1,18 @@
 mq ()
 {
-    author 'Kevin Ernst'
-    about 'Query appropriate dev/prod MySQL server (using credentials in ~/.my.cnf)'
-    param "$1 (optional) database host; default 'bmirsch{p|d}04my' "
-    param "$2 (optional) database name; default 'bedintersect' "
-    param "$3 (optional) options to 'mysql', e.g., '--skip-column-names' "
-    param "$4  quoted string of SQL commands to execute"
-    param "-q | --quiet - raw output, no extraneous messages"
-    example "$ mq  # default query is 'list tables' "
-    example "$ mq 'select * from gene_aliases'  # default db is 'bedintersect' "
-    example "$ mq --html localhost cressint 'select * from gene_aliases' "
-    example "$ mq -q --column-names 'select * from gene_aliases limit 10' "
-    group 'dba'
+    author 'Kevin Ernst';
+    about 'Query appropriate dev/prod MySQL server (using credentials in ~/.my.cnf)';
+    param "$1 (optional)  database host; default 'bmirsch{p|d}04my' ";
+    param "$2 (optional)  database name; default 'bedintersect' ";
+    param "$3 (optional)  options to 'mysql', e.g., '--skip-column-names' ";
+    param "$4             quoted string of SQL commands to execute";
+    param "-q | --quiet   raw output: no borders, no extraneous messages";
+    param "-h | --help    print this help message";
+    example "$ mq  # default query is 'show tables' ";
+    example "$ mq 'select * from gene_aliases' ";
+    example "$ mq --html localhost cressint 'select * from gene_aliases' ";
+    example "$ mq -q --column-names 'select * from gene_aliases limit 10' ";
+    group 'dba';
 
     quiet=
     mysqlhost=
@@ -21,7 +22,6 @@ mq ()
     # '--skip-column-names' added below if you specify '-q' | '--quiet'. You
     # can restore the columns even with '-q' by passing '--column-names' if you
     # want.
-    mysqlargs=--no-auto-rehash
     mysqlargs=(
         '--no-auto-rehash'
         '--table'
