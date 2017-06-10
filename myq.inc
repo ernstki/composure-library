@@ -15,9 +15,14 @@ myq ()
     mysqlhost=
     db=bedintersect
     sql='show tables;'
-    # default arguments to pass to 'mysql'; you can turn column names back on
-    # with '--column-names' if you want
-    mysqlargs='--no-auto-rehash --skip-column-names'
+    # Default arguments to pass to 'mysql'; you can turn column names back on
+    # with '--column-names' if you want. The '--table' option is removed below
+    # if you specify '-q' | '--quiet'.
+    mysqlargs=(
+        '--no-auto-rehash'
+        '--skip-column-names'
+        '--table'
+    )
 
     # Default to the BMI MySQL server on the same side of the research bubble
     # as the host you're logged in to
@@ -39,8 +44,10 @@ myq ()
             if [[ $1 =~ ^--?q ]]; then
                 # suppress output to stderr
                 quiet='ssssssshhhhhh'
+                mysqlargs=( ${mysqlargs[*]/'--table'} )
             else
-                mysqlargs="$mysqlargs $1"
+                # FIXME: quoted options almost definitely not preserved here
+                mysqlargs=( ${mysqlargs[*]} $1 )
             fi
             shift; continue
         fi
@@ -70,11 +77,11 @@ myq ()
     # the MySQL manual for details:
     # https://dev.mysql.com/doc/refman/5.7/en/option-file-options.html
     if grep -qE "^[[:space:]]*\[client:${shorthost}" ~/.my.cnf; then
-        mysqlcmd="mysql --defaults-group-suffix=:$shorthost $mysqlargs $db"
+        mysqlcmd="mysql --defaults-group-suffix=:$shorthost ${mysqlargs[*]} $db"
     else
         echo "WARNING: No group for '$shorthost' found in ~/.my.cnf" >&2
         echo "         Will use default credentials from '[client]' section" >&2
-        mysqlcmd="mysql -h $mysqlhost $mysqlargs $db"
+        mysqlcmd="mysql -h $mysqlhost ${mysqlargs[*]} $db"
     fi
 
     # Actually do it
