@@ -12,7 +12,7 @@ myq ()
     group 'mysql'
 
     quiet=
-    myhost=
+    mysqlhost=
     db=bedintersect
     sql='show tables;'
     # default arguments to pass to 'mysql'; you can turn column names back on
@@ -22,15 +22,15 @@ myq ()
     # Default to the BMI MySQL server on the same side of the research bubble
     # as the host you're logged in to
     if [[ $(hostname -s) =~ p[0-9]$ ]]; then
-        myhost=bmirschp04my.chmcres.cchmc.org
+        mysqlhost=bmirschp04my.chmcres.cchmc.org
     elif [[ $(hostname -s) =~ d[0-9]$ ]]; then
-        myhost=bmirschd04my.chmcres.cchmc.org
+        mysqlhost=bmirschd04my.chmcres.cchmc.org
     fi
 
     while (( $# )); do
         # If the argument looks like a hostname...
         if [[ $1 =~ ^bmi || $1 = "localhost" ]]; then
-            myhost=$1
+            mysqlhost=$1
             shift; continue
         fi
 
@@ -57,7 +57,7 @@ myq ()
         shift
     done
 
-    shorthost=${myhost%%.*}
+    shorthost=${mysqlhost%%.*}
     if [ -z "$quiet" ];  then
         echo "Executing the following SQL on ${shorthost}:" >&2
         echo >&2
@@ -70,19 +70,19 @@ myq ()
     # the MySQL manual for details:
     # https://dev.mysql.com/doc/refman/5.7/en/option-file-options.html
     if grep -qE "^[[:space:]]*\[client:${shorthost}" ~/.my.cnf; then
-        cmd="mysql --defaults-group-suffix=:$shorthost $mysqlargs $db <<<\"$sql\""
+        mysqlcmd="mysql --defaults-group-suffix=:$shorthost $mysqlargs $db"
     else
         echo "WARNING: No group for '$shorthost' found in ~/.my.cnf" >&2
         echo "         Will use default credentials from '[client]' section" >&2
-        cmd="mysql -h $myhost $mysqlargs $db <<<\"$sql\""
+        mysqlcmd="mysql -h $mysqlhost $mysqlargs $db"
     fi
 
     # Actually do it
     if [ -z "$quiet" ]; then
-        (set -x; $cmd)
+        (set -x; $mysqlcmd <<<"$sql")
         echo >&2
     else
-        $cmd
+        $mysqlcmd <<<"$sql"
     fi
 }
 
