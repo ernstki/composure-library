@@ -4,11 +4,15 @@ myq ()
     about 'Query propriate dev/prod MySQL server (using credentials in ~/.my.cnf)'
     param '$1 - (optional) database host; default "bmirsch{p|d}04my"'
     param '$2 - (optional) database name; default "bedintersect"'
-    param '$3 - quoted string of SQL commands to execute'
+    param '$3 - (optional) mysql options, e.g., "--skip-column-names"'
+    param '$4 - quoted string of SQL commands to execute'
     example 'mq bedintersect "select * from gene_aliases"'
+    example 'mq -H localhost cressint "select * from gene_aliases"'
     group 'dba'
+    group 'mysql'
 
     myhost=
+    mysqlargs=
     db=bedintersect
     sql='show tables;'
 
@@ -24,6 +28,12 @@ myq ()
         # If the argument looks like a hostname...
         if [[ $1 =~ ^bmi || $1 = "localhost" ]]; then
             myhost=$1
+            shift; continue
+        fi
+
+        # If the argument looks like a command-line option...
+        if [[ $1 =~ ^- ]]; then
+            mysqlargs="$mysqlargs $1"
             shift; continue
         fi
             
