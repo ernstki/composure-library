@@ -12,9 +12,10 @@ myq ()
     group 'mysql'
 
     myhost=
-    mysqlargs=
     db=bedintersect
     sql='show tables;'
+    # default arguments to pass to 'mysql'
+    mysqlargs=--no-auto-rehash
 
     # Default to the BMI MySQL server on the same side of the research bubble
     # as the host you're logged in to
@@ -57,13 +58,13 @@ myq ()
     # https://dev.mysql.com/doc/refman/5.7/en/option-file-options.html
     if grep -qE "^[[:space:]]*\[client:${shorthost}" ~/.my.cnf; then
         set -x
-        mysql $mysqlargs --defaults-group-suffix=:$shorthost $db <<<"$sql"
+        mysql --defaults-group-suffix=:$shorthost $mysqlargs $db <<<"$sql"
         set +x
     else
         echo "WARNING: No group for '$shorthost' found in ~/.my.cnf" >&2
         echo "         Will use default credentials from '[client]' section" >&2
         set -x
-        mysql $mysqlargs -h $myhost $db <<<"$sql"
+        mysql -h $myhost $mysqlargs $db <<<"$sql"
         set +x
     fi
 }
