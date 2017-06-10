@@ -52,7 +52,7 @@ myq ()
     done
 
     shorthost=${myhost%%.*}
-    echo "Executing your SQL query on $shorthost" >&2
+    echo "Executing the following SQL on ${shorthost}:" >&2
     echo >&2
     echo $( fold -sw72 <<<"$sql" | sed 's/\(.*\)/  >  \1/' ) >&2
     echo >&2
@@ -68,6 +68,7 @@ myq ()
         echo "         Will use default credentials from '[client]' section" >&2
         (set -x; mysql -h $myhost $mysqlargs $db <<<"$sql")
     fi
+    echo >&2
 }
 
 # vim: ft=sh
