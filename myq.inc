@@ -15,12 +15,13 @@ myq ()
     mysqlhost=
     db=bedintersect
     sql='show tables;'
-    # Default arguments to pass to 'mysql'; you can turn column names back on
-    # with '--column-names' if you want. The '--table' option is removed below
-    # if you specify '-q' | '--quiet'.
+    # Default arguments to pass to 'mysql'; the '--table' option is removed and
+    # '--skip-column-names' added below if you specify '-q' | '--quiet'. You
+    # can restore the columns even with '-q' by passing '--column-names' if you
+    # want.
+    mysqlargs=--no-auto-rehash
     mysqlargs=(
         '--no-auto-rehash'
-        '--skip-column-names'
         '--table'
     )
 
@@ -44,7 +45,8 @@ myq ()
             if [[ $1 =~ ^--?q ]]; then
                 # suppress output to stderr
                 quiet='ssssssshhhhhh'
-                mysqlargs=( ${mysqlargs[*]/'--table'} )
+                # h/t: https://stackoverflow.com/a/16861932
+                mysqlargs=( ${mysqlargs[*]/'--table'} '--skip-column-names' )
             else
                 # FIXME: quoted options almost definitely not preserved here
                 mysqlargs=( ${mysqlargs[*]} $1 )
