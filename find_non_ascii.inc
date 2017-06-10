@@ -11,7 +11,8 @@ find_non_ascii ()
     if [ -f "$1" ]; then 
         grep --color=tty -P -n "[\x80-\xFF]" "$1"
     else
-        cat | grep --color=tty -P -n "[\x80-\xFF]"
+        # reads from stdin
+        grep --color=tty -P -n "[\x80-\xFF]"
     fi
 }
 
