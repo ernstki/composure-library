@@ -52,6 +52,10 @@ myq ()
     done
 
     shorthost=${myhost%%.*}
+    echo "Executing your SQL query on $shorthost" >&2
+    echo >&2
+    echo $( fold -sw72 <<<"$sql" | sed 's/\(.*\)/  >  \1/' ) >&2
+    echo >&2
 
     # If a group exists like '[client:hostname]' in ~/.my.cnf, then use all the
     # parameters defined there, including hostname. Refer to this section of
