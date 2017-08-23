@@ -7,7 +7,7 @@ unmarkdown ()
     example 'unmarkdown LESEMICH.md'
     group 'markdown'
 
-    if [ $# -eq 0 && -f README.md ]; then
+    if [ $# -eq 0 -a -f README.md ]; then
         pandoc -f markdown -t plain README.md
     elif [ -f "$1" ]; then
         pandoc -f markdown -t plain "$1"
