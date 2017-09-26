@@ -9,7 +9,8 @@ unpathify ()
     example 'head /etc/passwd | unpathify -d:'
     group 'utility'
 
-    set -x
+    TRACE=${TRACE:-}
+    [[ $TRACE = 1 ]] && set -x
     
     local delim=':'
     local var=PATH
