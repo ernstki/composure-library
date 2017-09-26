@@ -56,7 +56,7 @@ unpathify ()
     fi
 
     # If stdin is a terminal, then...
-    if [ -t 1 ]; then 
+    if [ -t 0 ]; then 
         echo "${!var}" | tr "$delim" '\n' | sort
     else
         tr "$delim" '\n' | sort
