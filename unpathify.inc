@@ -18,23 +18,26 @@ unpathify ()
             --d*)
                 shift
                 delim=$1
-                shift; continue
-                ;;
+                break;;
             -d)
                 delim=${1#-d}
-                # Strip all leading/trailing whitespace
-                delim=${delim// /}
-                shift; continue
-                ;;
+                if [[ "$delim" ]]; then
+                    # Strip all leading/trailing whitespace
+                    delim=${delim// /}
+                else
+                    shift
+                    delim=$1
+                fi
+                break;;
             *)
                 if [[ ! "${!1}" ]]; then
                     echo "ACK! Variable '$1' is empty" >&2
                     return 1
                 fi
                 var=$1
-                shift
                 ;;
         esac
+        shift
     done
 
     if [[ ! "$delim" ]]; then
