@@ -49,16 +49,20 @@ unpathify ()
         echo "ACK! The '-d' option requires an option (the delimiter)!" >&2
         return 1
     fi
-    # Just return an error if the delimiter isn't found
-    if ! ( grep -q $delim <<<${!var} ); then
-        echo "ACK! Delimiter '$delim' not found in variable '\$$var'" >&2
-        return 1
-    fi
 
     # If stdin is a terminal, then...
     if [ -t 0 ]; then 
+        # Just return an error if the delimiter isn't found
+        if ! ( grep -q $delim <<<${!var} ); then
+            echo "ACK! Delimiter '$delim' not found in variable '\$$var'" >&2
+            return 1
+        fi
         echo "${!var}" | tr "$delim" '\n' | sort
     else
+        if ! ( grep -q $delim <<<${!var} ); then
+            echo "ACK! Delimiter '$delim' not found in input stream" >&2
+            return 1
+        fi
         tr "$delim" '\n' | sort
     fi
 
