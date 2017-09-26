@@ -8,6 +8,8 @@ unpathify ()
     example 'unpathify $LD_LIBRARY_PATH'
     example 'head /etc/passwd | unpathify -d:'
     group 'utility'
+
+    set -x
     
     local delim=':'
     local var=PATH
