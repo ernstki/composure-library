@@ -10,7 +10,7 @@ unpathify ()
     group 'utility'
 
     # remember 'set +/-x' and restore it when we're through
-    SETXTRACE=$( set -o | grep xtrace | awk '{print $2]' )
+    SETXTRACE=$( set -o | grep xtrace | awk '{print $2}' )
     TRACE=${TRACE:-}
     [[ $TRACE = 1 ]] && set -x
     
@@ -55,10 +55,11 @@ unpathify ()
         return 1
     fi
 
+    # If stdin is a terminal, then...
     if [ -t 1 ]; then 
-        echo ${!var} | tr $delim '\n' | sort
+        echo "${!var}" | tr "$delim" '\n' | sort
     else
-        tr $delim '\n' | sort
+        tr "$delim" '\n' | sort
     fi
 
     # restore the previous 'xtrace' shell option
