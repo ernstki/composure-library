@@ -12,7 +12,7 @@ unpathify ()
     local delim=':'
     local var=PATH
 
-    while (( $* )); do
+    while (( $# )); do
         # handle the '-d' (delimiter) option
         case $1 in
             --d*)
