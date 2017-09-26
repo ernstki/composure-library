@@ -53,6 +53,6 @@ unpathify ()
         return 1
     fi
 
-    echo ${!var} | tr $delim '\n'
+    echo ${!var} | tr $delim '\n' | sort
 }
 # vim: ft=sh
