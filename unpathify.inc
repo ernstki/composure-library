@@ -2,11 +2,11 @@ unpathify ()
 {
     author 'Kevin Ernst'
     about 'Remove path separator from PATH-like variables'
-    param '$1      - (optional) the PATH-like variable to unpathify (default $PATH)'
-    param '-d $SEP - (optional) split on this delimiter (default: colon)'
+    param '-d <SEP> - (optional) split on this delimiter (default: colon)'
+    param '<ENVVAR> - (optional) the PATH-like variable to unpathify, omit "$" (default PATH)'
     example 'unpathify'
-    example 'unpathify $LD_LIBRARY_PATH'
-    example 'head /etc/passwd | unpathify -d:'
+    example 'unpathify LD_LIBRARY_PATH'
+    example 'head -1 /etc/passwd | unpathify'
     group 'utility'
 
     # remember 'set +/-x' and restore it when we're through
