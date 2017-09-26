@@ -21,7 +21,7 @@ unpathify ()
                 shift
                 delim=$1
                 break;;
-            -d)
+            -d*)
                 delim=${1#-d}
                 if [[ "$delim" ]]; then
                     # Strip all leading/trailing whitespace
