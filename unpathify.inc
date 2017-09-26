@@ -9,6 +9,8 @@ unpathify ()
     example 'head /etc/passwd | unpathify -d:'
     group 'utility'
 
+    # remember 'set +/-x' and restore it when we're through
+    SETXTRACE=$( set -o | grep xtrace | awk '{print $2]' )
     TRACE=${TRACE:-}
     [[ $TRACE = 1 ]] && set -x
     
@@ -58,5 +60,8 @@ unpathify ()
     else
         tr $delim '\n' | sort
     fi
+
+    # restore the previous 'xtrace' shell option
+    [[ $SETXTRACE = 'on' ]] && set -x || set +x
 }
 # vim: ft=sh
