@@ -54,9 +54,9 @@ unpathify ()
     fi
 
     if [ -t 1 ]; then 
-        tr $delim '\n' | sort
-    else
         echo ${!var} | tr $delim '\n' | sort
+    else
+        tr $delim '\n' | sort
     fi
 }
 # vim: ft=sh
