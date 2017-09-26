@@ -18,11 +18,13 @@ unpathify ()
             --d*)
                 shift
                 delim=$1
+                shift; continue
                 ;;
             -d)
                 delim=${1#-d}
                 # Strip all leading/trailing whitespace
                 delim=${delim// /}
+                shift; continue
                 ;;
             *)
                 if [[ ! "${!1}" ]]; then
@@ -30,9 +32,9 @@ unpathify ()
                     return 1
                 fi
                 var=$1
+                shift
                 ;;
         esac
-        shift
     done
 
     if [[ ! "$delim" ]]; then
