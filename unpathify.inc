@@ -1,7 +1,7 @@
 unpathify ()
 {
     author 'Kevin Ernst'
-    about 'Remove path separator from PATH-like variables'
+    about 'Translate path separators of PATH-like variables into newlines'
     param '-d <SEP> - (optional) split on this delimiter (default: colon)'
     param '<ENVVAR> - (optional) the PATH-like variable to unpathify, omit "$" (default PATH)'
     example 'unpathify'
