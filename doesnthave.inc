@@ -8,6 +8,7 @@ doesnthave ()
     example 'doesnthave snpcoords.bed bf504a8af2 ba7a23c3bd'
     group 'lsf'
 
+    set -x
     # Shift off the first argument; that's the filename
     local file=$1
     local dirs=()
@@ -46,6 +47,7 @@ doesnthave ()
 
     # Do it
     parallel cd "'{}'" \; test -s "'$file'" '||' echo {} ::: "${dirs[@]}"
+    set +x
 }
 
 # vim: ft=sh
