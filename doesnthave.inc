@@ -26,6 +26,9 @@ doesnthave ()
             EMPTY_OK=1
         elif [[ $1 =~ ^--?(only-|is-)?empty ]]; then
             REPORT_ONLY_EMPTY=1
+        elif [[ $1 =~ ^--? ]]; then
+                echo "ACK! Unrecognized option '$1'." >&2 && \
+                    return 1
         elif [[ -d "$1" ]]; then
             test -n "$DEBUG" && echo "dir='$1'"
             # Trim leading './'
