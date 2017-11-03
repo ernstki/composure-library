@@ -24,11 +24,14 @@ doesnthave ()
                 echo "WARN: '$dir' not a directory" >&2
                 continue
             fi
-            dirs=( "${dirs[@]}" ${dir#./} )
+            dirs=( "${dirs[@]}" "${dir#./}" )
         done
     else
-        # Everything in the current directory
-        dirs=( $(find * -maxdepth 0 -type d) )
+        # Everything in the current directory. Unfortunately you can't set
+        # IFS=$'\0' and use '-print0'; ref: https://stackoverflow.com/a/8677566
+        while IFS= read -r -d '' dir; do
+            dirs=( "${dirs[@]}" "$dir" )
+        done < <(find * -maxdepth 0 -type d)
     fi
 
     # Do it
