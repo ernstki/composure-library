@@ -28,7 +28,9 @@ doesnthave ()
         done
     else
         # Everything in the current directory
-        dirs=( $(find * -maxdepth 0 -type d) )
+        OLDIFS=$IFS
+        IFS=$'\0' dirs=( $(find * -maxdepth 0 -type d) )
+        IFS=$OLDIFS
     fi
 
     # Do it
