@@ -27,6 +27,9 @@ doesnthave ()
             echo "dir='$dir'"
             dirs=( "${dirs[@]}" "${dir#./}" )
         done
+        test -z "${dirs[@]}" && \
+            echo -e "ACK! Invalid list of directories.\n" >&2 && \
+            exit 1
     else
         # Everything in the current directory. Unfortunately you can't set
         # IFS=$'\0' and use '-print0'; ref: https://stackoverflow.com/a/8677566
@@ -37,7 +40,7 @@ doesnthave ()
     fi
 
     # Do it
-    parallel cd "'{}'" \; test -s "'$file'" '||' echo {} ::: "${dirs[@]}"
+    parallel cd "{}" \; test -s "'$file'" '||' echo {} ::: "${dirs[@]}"
 }
 
 # vim: ft=sh
