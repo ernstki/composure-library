@@ -3,7 +3,7 @@ doesnthave ()
     author 'Kevin Ernst'
     about 'Find directories /not/ containing a named (non-empty) file'
     param '$1           - filename to search for'
-    param "--empty-ok   - (optional) if file is empty, don't consider it \"missing\""
+    param "--empty-ok   - (optional) if file is empty, don't consider it 'missing'"
     param '--only-empty - (optional) report if file exists but is empty'
     param '<dir> ...    - (optional) search within dirs (default: c.w.d. and subdirs)'
     example '$ doesnthave --is-empty allresults.bed'
