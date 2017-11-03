@@ -28,13 +28,11 @@ doesnthave ()
         done
     else
         # Everything in the current directory
-        OLDIFS=$IFS
-        IFS=$'\0' dirs=( $(find * -maxdepth 0 -type d) )
-        IFS=$OLDIFS
+        dirs=( $(find * -maxdepth 0 -type d) )
     fi
 
     # Do it
-    parallel cd {} \; test -s "$file" '||' echo {} ::: "${dirs[@]}"
+    parallel cd "'{}'" \; test -s "'$file'" '||' echo {} ::: "${dirs[@]}"
 }
 
 # vim: ft=sh
