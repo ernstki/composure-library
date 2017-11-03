@@ -13,7 +13,7 @@ doesnthave ()
 
     # set -x
     local DEBUG=${DEBUG:+-v}
-    local TEST_EXISTS='test -s'
+    local TEST_EXISTS=
     # by default, consider empty files as "missing"
     local EMPTY_OK=
     # report *only* existing empty files
@@ -62,7 +62,9 @@ doesnthave ()
         echo -e "ACK! Invalid/empty list of directories.\n" >&2 && \
         return 1
 
-    # The default behavior (defined at the top) is 'test -s'
+    # The default behavior is "does the file exist and is it non-empty?"
+    TEST_EXISTS="test -s '$file'"
+
     if [[ $REPORT_ONLY_EMPTY && $EMPTY_OK ]]; then
         echo -e "ACK! The '--empty-ok' and '--only-empty' options " \
                 "are mutually-exclusive.\n" && return 1
