@@ -59,7 +59,7 @@ doesnthave ()
         return 1
 
     # error out on mutually-exclusive options
-    test $numflags -gt 0 && \
+    test $numflags -gt 1 && \
         echo -e "ACK! Only one '--emtpy-ok' or '--has-[non-]emtpy' option" \
                 "is allowed.\n" >&2 && return 1
 
