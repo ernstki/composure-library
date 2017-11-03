@@ -2,15 +2,24 @@ doesnthave ()
 {
     author 'Kevin Ernst'
     about 'Find directories /not/ containing a named (non-empty) file'
-    param '$1    - filename to search for'
-    param '$2 $* - directories to search within (default: c.w.d. and subdirs)'
-    example 'doesnthave snp_coords.bed'
+    param "--empty-ok - (optional) if file is empty, that's OK"
+    param '$1         - filename to search for'
+    param '$2 $*      - search within dirs (default: c.w.d. and subdirs)'
+    example 'doesnthave --empty-ok snp_coords.bed'
     example 'doesnthave snpcoords.bed bf504a8af2 ba7a23c3bd'
     group 'lsf'
 
     # set -x
-    local dirs=()
     local DEBUG=${DEBUG:+-v}
+    # allow empty files by default
+    local EXISTS=-s
+    local dirs=()
+
+    if [[ $1 =~ ^--?(allow-)?empty(-ok)? ]]; then
+        EXISTS=-f
+        shift
+    fi
+
     local file=$1
     shift
 
@@ -45,7 +54,7 @@ doesnthave ()
         return 1
 
     # Do it
-    parallel $DEBUG cd {} \; test -s "$file" '||' echo {} ::: "${dirs[@]}"
+    parallel $DEBUG cd {} \; test $EXISTS "$file" '||' echo {} ::: "${dirs[@]}"
     # set +x
 }
 
