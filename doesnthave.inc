@@ -1,12 +1,13 @@
 doesnthave ()
 {
     author 'Kevin Ernst'
-    about 'Find directories /not/ containing a named (non-empty) file'
-    param '$1           - filename to search for'
-    param "--empty-ok   - (optional) if file is empty, don't consider it 'missing' "
-    param '--only-empty - (optional) report if file exists but is empty'
-    param '<dir> ...    - (optional) search within dirs (default: c.w.d. and subdirs)'
-    example '$ doesnthave --is-empty allresults.bed'
+    about 'Report directories /not/ containing a named (non-empty) file'
+    param '$file           - filename to search for'
+    param "--empty-ok      - (optional) don't report if \$file exists but is empty"
+    param '--has-empty     - (optional) report only if $file exists and is empty'
+    param '--has-non-empty - (optional) report only if $file exists and is NON-empty'
+    param '<dir> ...       - (optional) search within dirs (default: c.w.d. and subdirs)'
+    example '$ doesnthave --has-empty allresults.bed'
     example '$ doesnthave --empty-ok snp_coords.bed'
     example '$ doesnthave snpcoords.bed bf504a8af2 ba7a23c3bd'
     group 'lsf'
@@ -14,19 +15,27 @@ doesnthave ()
     # set -x
     local DEBUG=${DEBUG:+-v}
     # skip over (don't print) if this directory passes this test
-    local SKIP_IP=
+    local SKIP_IF=
     # by default, consider empty files as "missing"
     local EMPTY_OK=
-    # report *only* existing empty files
+    # report *only* for existing empty files
     local REPORT_ONLY_EMPTY=
+    # report *only* for existing non-empty files
+    local REPORT_ONLY_NONEMPTY=
+    local numflags=0
     local file=
     local dirs=()
 
     while (( $# )); do
         if [[ $1 =~ ^--?(allow-empty|empty-ok) ]]; then
             EMPTY_OK=1
-        elif [[ $1 =~ ^--?(only-|is-)?empty ]]; then
+            numflags=$(( numflags + 1 ))
+        elif [[ $1 =~ ^--?(only-|is-|has-)empty ]]; then
             REPORT_ONLY_EMPTY=1
+            numflags=$(( numflags + 1 ))
+        elif [[ $1 =~ ^--?(only-|is-|has-)non-?empty ]]; then
+            REPORT_ONLY_NONEMPTY=1
+            numflags=$(( numflags + 1 ))
         elif [[ $1 =~ ^--? ]]; then
                 echo "ACK! Unrecognized option '$1'." >&2 && \
                     return 1
@@ -49,6 +58,11 @@ doesnthave ()
         echo -e "ACK! You must at *least* specify a filename to search for.\n" >&2 && \
         return 1
 
+    # error out on mutually-exclusive options
+    test $numflags -gt 0 && \
+        echo -e "ACK! Only one '--emtpy-ok' or '--has-[non-]emtpy' option" \
+                "is allowed.\n" >&2 && return 1
+
     # If *no* directories given on command line; add everything in the c.w.d.
     if [[ -z "${dirs[*]}" ]]; then
         # Ref: https://stackoverflow.com/a/8677566
@@ -70,13 +84,14 @@ doesnthave ()
     # non-empty"
     SKIP_IF="test -s '$file'"
 
-    if [[ $REPORT_ONLY_EMPTY && $EMPTY_OK ]]; then
-        echo -e "ACK! The '--empty-ok' and '--only-empty' options " \
-                "are mutually-exclusive.\n" && return 1
-    elif [[ $REPORT_ONLY_EMPTY ]]; then
+    if [[ $REPORT_ONLY_EMPTY ]]; then
         # skip if the file isn't there, or if it's non-zero size (only print if
         # the file exists *and* is zero size)
         SKIP_IF="test ! -f '$file' -o -s '$file'"
+    elif [[ $REPORT_ONLY_NONEMPTY ]]; then
+        # reverse the logic of the above (report only directories where the
+        # file exists *and* has non-zero size)
+        SKIP_IF="test ! -f '$file' -o ! -s '$file'"
     elif [[ $EMPTY_OK ]]; then
         # skip this directory if the file even exists (fine if it's empty)
         SKIP_IF="test -f '$file'"
