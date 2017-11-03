@@ -46,7 +46,7 @@ doesnthave ()
         return 1
 
     # Do it
-    parallel cd "{}" \; test -s "'$file'" '||' echo {} ::: "${dirs[@]}"
+    parallel -v cd {} \; test -s "$file" '||' echo {} ::: "${dirs[@]}"
     set +x
 }
 
