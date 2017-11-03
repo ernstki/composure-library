@@ -5,7 +5,7 @@ doesnthave ()
     param '$1           - filename to search for'
     param "--empty-ok   - (optional) if file is empty, don't consider it \"missing\""
     param '--only-empty - (optional) report if file exists but is empty'
-    param "[<dir> ...]  - (optional) search within dirs (default: c.w.d. and subdirs)"
+    param '<dir> ...    - (optional) search within dirs (default: c.w.d. and subdirs)'
     example '$ doesnthave --is-empty allresults.bed'
     example '$ doesnthave --empty-ok snp_coords.bed'
     example '$ doesnthave snpcoords.bed bf504a8af2 ba7a23c3bd'
