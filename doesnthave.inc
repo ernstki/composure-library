@@ -41,12 +41,12 @@ doesnthave ()
         #done < <(find * -maxdepth 0 -type d -print0)
     fi
 
-    test -z "${dirs[@]}" && \
+    test -z "${dirs[*]}" && \
         echo -e "ACK! Invalid/empty list of directories.\n" >&2 && \
         return 1
 
     # Do it
-    parallel cd "'{}'" \; test -s "'$file'" '||' echo {} ::: "${dirs[@]}"
+    parallel cd "{}" \; test -s "'$file'" '||' echo {} ::: "${dirs[@]}"
     set +x
 }
 
