@@ -15,7 +15,7 @@ doesnthave ()
 
     test -z "$file" && \
         echo -e "ACK! You must specify at *least* a filename to search for.\n" >&2 && \
-        exit 1
+        return 1
 
     # Trim leading './'
     if (( $# )); then
@@ -29,7 +29,7 @@ doesnthave ()
         done
         test -z "${dirs[@]}" && \
             echo -e "ACK! Invalid list of directories.\n" >&2 && \
-            exit 1
+            return 1
     else
         # Everything in the current directory. Unfortunately you can't set
         # IFS=$'\0' and use '-print0'; ref: https://stackoverflow.com/a/8677566
