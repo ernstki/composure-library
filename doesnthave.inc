@@ -3,9 +3,9 @@ doesnthave ()
     author 'Kevin Ernst'
     about 'Find directories /not/ containing a named (non-empty) file'
     param '$1           - filename to search for'
-    param "--empty-ok   - (optional) if file is empty, that's OK"
-    param "--only-empty - (optional) report if file exists but is empty"
-    param '[<dir> ...]  - (optional) search within dirs (default: c.w.d. and subdirs)'
+    param "--empty-ok   - (optional) if file is empty, don't consider it \"missing\""
+    param '--only-empty - (optional) report if file exists but is empty'
+    param "[<dir> ...]  - (optional) search within dirs (default: c.w.d. and subdirs)"
     example '$ doesnthave --is-empty allresults.bed'
     example '$ doesnthave --empty-ok snp_coords.bed'
     example '$ doesnthave snpcoords.bed bf504a8af2 ba7a23c3bd'
@@ -26,19 +26,23 @@ doesnthave ()
             EMPTY_OK=1
         elif [[ $1 =~ ^--?(only-|is-)?empty ]]; then
             REPORT_ONLY_EMPTY=1
-        elif [[ ! -d "$1" ]]; then
+        elif [[ -d "$1" ]]; then
             test -n "$DEBUG" && echo "dir='$1'"
             # Trim leading './'
             dirs=( "${dirs[@]}" "${1#./}" )
         else
-            echo "WARN: unrecognized option or bad directory '$1'" >&2
-            continue
+            # consider this a filename
+            if [[ $file ]]; then
+                echo "ACK! Multiple filenames not (yet) supported." >&2 && \
+                    return 1
+            fi
+            file=$1
         fi
         shift
     done
 
     test -z "$file" && \
-        echo -e "ACK! You must specify at *least* a filename to search for.\n" >&2 && \
+        echo -e "ACK! You must at *least* specify a filename to search for.\n" >&2 && \
         return 1
 
     # If *no* directories given on command line; add everything in the c.w.d.
