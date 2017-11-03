@@ -25,20 +25,19 @@ doesnthave ()
                 echo "WARN: '$dir' not a directory" >&2
                 continue
             fi
-            echo "dir='$dir'"
+            # echo "dir='$dir'"
             dirs=( "${dirs[@]}" "${dir#./}" )
         done
     else
         # Everything in the current directory.
-        #dirs=( $(find * -maxdepth 0 -type d) )
-
-        # This might have worked, too, but I didn't have the problem with paths
-        # with spaces that I thought I had originally, so this wasn't actually
-        # necessary. See also: https://stackoverflow.com/a/8677566
+        # Ref: https://stackoverflow.com/a/8677566
         while IFS= read -r -d '' dir; do
-            echo "dir='$dir'"
+            # echo "dir='$dir'"
             dirs=( "${dirs[@]}" "$dir" )
         done < <(find * -maxdepth 0 -type d -print0)
+
+        # This /almost/ worked, but doesn't preserve embedded spaces in dir names
+        #dirs=( $(find * -maxdepth 0 -type d) )
     fi
 
     test -z "${dirs[*]}" && \
