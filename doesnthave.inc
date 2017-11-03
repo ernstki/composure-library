@@ -24,20 +24,22 @@ doesnthave ()
                 echo "WARN: '$dir' not a directory" >&2
                 continue
             fi
-            echo "dir='$dir'"
+            #echo "dir='$dir'"
             dirs=( "${dirs[@]}" "${dir#./}" )
         done
-        test -z "${dirs[@]}" && \
-            echo -e "ACK! Invalid list of directories.\n" >&2 && \
-            return 1
     else
+        dirs=( $(find * -maxdepth 0 -type d) )
         # Everything in the current directory. Unfortunately you can't set
         # IFS=$'\0' and use '-print0'; ref: https://stackoverflow.com/a/8677566
-        while IFS= read -r -d '' dir; do
-            echo "dir='$dir'"
-            dirs=( "${dirs[@]}" "$dir" )
-        done < <(find * -maxdepth 0 -type d)
+        #while IFS= read -r -d '' dir; do
+        #    echo "dir='$dir'"
+        #    dirs=( "${dirs[@]}" "$dir" )
+        #done < <(find * -maxdepth 0 -type d -print0)
     fi
+
+    test -z "${dirs[@]}" && \
+        echo -e "ACK! Invalid/empty list of directories.\n" >&2 && \
+        return 1
 
     # Do it
     parallel cd "{}" \; test -s "'$file'" '||' echo {} ::: "${dirs[@]}"
