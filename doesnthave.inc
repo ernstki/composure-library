@@ -9,9 +9,9 @@ doesnthave ()
     group 'lsf'
 
     # set -x
-    # Shift off the first argument; that's the filename
-    local file=$1
     local dirs=()
+    local DEBUG=${DEBUG:+-v}
+    local file=$1
     shift
 
     test -z "$file" && \
@@ -25,14 +25,14 @@ doesnthave ()
                 echo "WARN: '$dir' not a directory" >&2
                 continue
             fi
-            # echo "dir='$dir'"
+            test -n "$DEBUG" && echo "dir='$dir'"
             dirs=( "${dirs[@]}" "${dir#./}" )
         done
     else
         # Everything in the current directory.
         # Ref: https://stackoverflow.com/a/8677566
         while IFS= read -r -d '' dir; do
-            # echo "dir='$dir'"
+            test -n "$DEBUG" && echo "dir='$dir'"
             dirs=( "${dirs[@]}" "$dir" )
         done < <(find * -maxdepth 0 -type d -print0)
 
@@ -45,7 +45,7 @@ doesnthave ()
         return 1
 
     # Do it
-    parallel -v cd {} \; test -s "$file" '||' echo {} ::: "${dirs[@]}"
+    parallel $DEBUG cd {} \; test -s "$file" '||' echo {} ::: "${dirs[@]}"
     # set +x
 }
 
