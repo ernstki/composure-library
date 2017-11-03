@@ -13,7 +13,8 @@ doesnthave ()
 
     # set -x
     local DEBUG=${DEBUG:+-v}
-    local TEST_EXISTS=
+    # skip over (don't print) if this directory passes this test
+    local SKIP_IP=
     # by default, consider empty files as "missing"
     local EMPTY_OK=
     # report *only* existing empty files
@@ -65,22 +66,24 @@ doesnthave ()
         echo -e "ACK! Invalid/empty list of directories.\n" >&2 && \
         return 1
 
-    # The default behavior is "does the file exist and is it non-empty?"
-    TEST_EXISTS="test -s '$file'"
+    # The default behavior is "skip this directory if the file exists and it's
+    # non-empty"
+    SKIP_IF="test -s '$file'"
 
     if [[ $REPORT_ONLY_EMPTY && $EMPTY_OK ]]; then
         echo -e "ACK! The '--empty-ok' and '--only-empty' options " \
                 "are mutually-exclusive.\n" && return 1
     elif [[ $REPORT_ONLY_EMPTY ]]; then
-        # file exists and it's *not* non-zero size (i.e., it's empty)
-        TEST_EXISTS="test -f '$file' -a ! -s '$file'"
+        # skip if the file isn't there, or if it's non-zero size (only print if
+        # the file exists *and* is zero size)
+        SKIP_IF="test ! -f '$file' -o -s '$file'"
     elif [[ $EMPTY_OK ]]; then
-        # file exists, don't care if it's empty
-        TEST_EXISTS="test -f '$file'"
+        # skip this directory if the file even exists (fine if it's empty)
+        SKIP_IF="test -f '$file'"
     fi
 
     # Do it
-    parallel $DEBUG cd {} \; $TEST_EXISTS '||' echo {} ::: "${dirs[@]}"
+    parallel $DEBUG cd {} \; $SKIP_IF '||' echo {} ::: "${dirs[@]}"
     # set +x
 }
 
