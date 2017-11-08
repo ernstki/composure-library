@@ -120,8 +120,11 @@ doesnthave ()
     fi
 
     # Do it
-    parallel $DEBUG cd {} \; $SKIP_IF '||' '(' echo {} ::: "${dirs[@]}" \; \
-                    test ! -s "'$what'" '&&' echo -e '"\t[empty]"'
+    parallel $DEBUG \
+        cd {} \; $SKIP_IF '|| ('
+            echo {} ::: "${dirs[@]}" \; \
+            test ! -s "'$what'" '&&' echo -e '"\t[empty]"' \
+        ')'
     # set +x
 }
 
