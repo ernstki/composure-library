@@ -34,7 +34,10 @@ doesnthave ()
     local dirs=()
 
     while (( $# )); do
-        if [[ $1 =~ ^--?(allow-empty|empty-ok) ]]; then
+        if [[ $1 =~ ^(-h|--?help) ]]; then
+            reference doesnthave
+            return
+        elif [[ $1 =~ ^--?(allow-empty|empty-ok) ]]; then
             REPORT_EMPTY_OK=1
             numflags=$(( numflags + 1 ))
         elif [[ $1 =~ ^--?(only-|is-|has-)empty ]]; then
