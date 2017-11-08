@@ -37,7 +37,7 @@ doesnthave ()
         if [[ $1 =~ ^(-h|--?help) ]]; then
             reference doesnthave
             return
-        elif [[ $1 =~ ^--?(also-)?empty(-too)? ]]; then
+        elif [[ $1 =~ ^--?(also-)?empty(-too)?$ ]]; then
             REPORT_EMPTY_TOO=1
             numflags=$(( numflags + 1 ))
         elif [[ $1 =~ ^--?(only-|is-|has-)empty ]]; then
