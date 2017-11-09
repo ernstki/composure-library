@@ -121,10 +121,11 @@ doesnthave ()
 
     # Do it
     if [[ $REPORT_EMPTY_TOO ]]; then
-        parallel $DEBUG cd {} \; $SKIP_IF '||' '('                             \
-            echo -n {} \;                                                      \
-            test -f "'$what'" -a ! -s "'$what'" '&&' echo -ne '"\t[empty]"' \; \
-            echo                                                               \
+        parallel $DEBUG cd {} \; $SKIP_IF '||' '('    \
+            echo -n {} \;                             \
+            test -f "'$what'" -a ! -s "'$what'" '&&'  \
+                echo -ne '"\t[empty]"' '>&2' \;       \
+            echo                                      \
         ')' ::: "${dirs[@]}" 
     else
         parallel $DEBUG cd {} \; $SKIP_IF '||' echo {} ::: "${dirs[@]}" 
