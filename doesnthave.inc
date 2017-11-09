@@ -129,7 +129,7 @@ doesnthave ()
         parallel $DEBUG cd {} \; $SKIP_IF '||' '('                           \
             echo -n {} \;                                                    \
             test -f "'$what'" -a ! -s "'$what'" -a -z "'$LESS_CHATTY'" '&&'  \
-                echo -ne '"\t[empty]"' '>&2' \;                              \
+                echo -ne '"\t[empty]"' \;                                    \
             echo                                                             \
         ')' ::: "${dirs[@]}" 
     else
