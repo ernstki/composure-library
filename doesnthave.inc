@@ -128,7 +128,7 @@ doesnthave ()
     if [[ $REPORT_EMPTY_TOO ]]; then
         parallel $DEBUG cd {} \; $SKIP_IF '||' '('                           \
             echo -n {} \;                                                    \
-            test -f "'$what'" -a ! -s "'$what'" -a -n "'$LESS_CHATTY'" '&&'  \
+            test -f "'$what'" -a ! -s "'$what'" -a -z "'$LESS_CHATTY'" '&&'  \
                 echo -ne '"\t[empty]"' '>&2' \;                              \
             echo                                                             \
         ')' ::: "${dirs[@]}" 
