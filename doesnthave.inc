@@ -40,7 +40,7 @@ doesnthave ()
         if [[ $1 =~ ^(-h|--?help) ]]; then
             reference doesnthave
             return
-        elif [[ $1 =~ ^--?quiet ]]; then
+        elif [[ $1 =~ ^--?q ]]; then
             LESS_CHATTY=1
         elif [[ $1 =~ ^(-e|--?(also-)?empty(-too)?)$ ]]; then
             REPORT_EMPTY_TOO=1
