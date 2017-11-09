@@ -3,10 +3,11 @@ doesnthave ()
     author 'Kevin Ernst'
     about 'Report directories /not/ containing a named file'
     param '$1              - filename (or directory) to search for'
-    param "--empty-too     - (optional) also report if \$1 exists but is empty"
+    param "-e, --empty-too - (optional) also report if \$1 exists but is empty"
+    param "-q, --quiet     - (optional) suppress printing \"[empty]\" for empty files"
     param '--has-empty     - (optional) report only if $1 exists and is empty'
     param '--has-non-empty - (optional) report only if $1 exists and is NON-empty'
-    param '--directory     - (optional) report only if directory $1 is missing'
+    param '-d, --directory - (optional) report only if directory $1 is missing'
     param '--has-directory - (optional) report only if directory $1 is PRESENT'
     param '<dir> ...       - (optional) search within dirs (default: c.w.d. and subdirs)'
     example '$ doesnthave snpcoords.bed bf504a8af2 ba7a23c3bd'
@@ -19,6 +20,8 @@ doesnthave ()
     local DEBUG=${DEBUG:+-v}
     # skip over (don't print) if this directory passes this test
     local SKIP_IF=
+    # suppress printing anything but the directory name
+    local LESS_CHATTY=
     # by default, consider existing, empty files as OK
     local REPORT_EMPTY_TOO=
     # report *only* for existing empty files
@@ -37,7 +40,9 @@ doesnthave ()
         if [[ $1 =~ ^(-h|--?help) ]]; then
             reference doesnthave
             return
-        elif [[ $1 =~ ^--?(also-)?empty(-too)?$ ]]; then
+        elif [[ $1 =~ ^--?quiet ]]; then
+            LESS_CHATTY=1
+        elif [[ $1 =~ ^(-e|--?(also-)?empty(-too)?)$ ]]; then
             REPORT_EMPTY_TOO=1
             numflags=$(( numflags + 1 ))
         elif [[ $1 =~ ^--?(only-|is-|has-)empty ]]; then
@@ -46,7 +51,7 @@ doesnthave ()
         elif [[ $1 =~ ^--?(only-|is-|has-)non-?empty ]]; then
             REPORT_ONLY_NONEMPTY=1
             numflags=$(( numflags + 1 ))
-        elif [[ $1 =~ ^--?dir ]]; then
+        elif [[ $1 =~ ^(-d|--?dir) ]]; then
             REPORT_DIR_MISSING=1
             numflags=$(( numflags + 1 ))
         elif [[ $1 =~ ^--?(has-)dir ]]; then
@@ -121,11 +126,11 @@ doesnthave ()
 
     # Do it
     if [[ $REPORT_EMPTY_TOO ]]; then
-        parallel $DEBUG cd {} \; $SKIP_IF '||' '('    \
-            echo -n {} \;                             \
-            test -f "'$what'" -a ! -s "'$what'" '&&'  \
-                echo -ne '"\t[empty]"' '>&2' \;       \
-            echo                                      \
+        parallel $DEBUG cd {} \; $SKIP_IF '||' '('                           \
+            echo -n {} \;                                                    \
+            test -f "'$what'" -a ! -s "'$what'" -a -n "'$LESS_CHATTY'" '&&'  \
+                echo -ne '"\t[empty]"' '>&2' \;                              \
+            echo                                                             \
         ')' ::: "${dirs[@]}" 
     else
         parallel $DEBUG cd {} \; $SKIP_IF '||' echo {} ::: "${dirs[@]}" 
