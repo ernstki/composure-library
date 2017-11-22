@@ -8,5 +8,5 @@ ldapsearch_user ()
     group 'ldap'
 
     local user=$1; shift
-    ldapsearch -LLL -x -y ~/.ldappasswd "(uid=$user)" $*
+    ldapsearch -LLL -x -y ~/.ldappasswd -o ldif-wrap=no "(uid=$user)" $*
 }
