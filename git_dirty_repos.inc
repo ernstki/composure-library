@@ -1,4 +1,4 @@
-git_show_dirty_repos ()
+git_dirty_repos ()
 {
     author 'Kevin Ernst'
     about 'Show repos within subdirs of c.w.d. with uncommitted changes'
