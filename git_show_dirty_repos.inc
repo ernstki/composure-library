@@ -5,5 +5,5 @@ git_show_dirty_repos ()
     param ''
     example ''
     group 'git'
-    lsd | parallel cd {} \; test -d .git '&&' if git diff --no-ext-diff --quiet --exit-code \; then echo {} \; fi
+    lsd | parallel cd {} \; test -d .git '&&' if [[ '$(git status --porcelain)' ]] \; then echo {} \; fi
 }
