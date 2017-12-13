@@ -8,5 +8,5 @@ unwrap ()
     group 'textutil'
 
     # source: https://stackoverflow.com/a/1252191
-    pbpaste | sed ':a;N;$!ba;s/\n/ /g;s/  */ /g' | pbcopy
+    sed ':a;N;$!ba;s/\n/ /g;s/  */ /g'
 }
