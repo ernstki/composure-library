@@ -1,8 +1,8 @@
 unwrap ()
 {
     author 'Kevin Ernst'
-    about 'Unwraps text on stdin and squeezes multiple spaces'
-    about 'Good for reformatting Git log messages into GitHub PRs'
+    about 'Unwraps text on stdin and squeezes multiple spaces.'
+    about 'Good for reformatting Git log messages into GitHub PRs.'
     param '(none; operates on stdin)'
     example 'pbpaste | unwrap | pbcopy'
     group 'textutil'
