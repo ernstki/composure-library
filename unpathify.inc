@@ -59,11 +59,16 @@ unpathify ()
         fi
         echo "${!var}" | tr "$delim" '\n' | sort
     else
-        if ! ( grep -q $delim <<<${!var} ); then
+        local tmp=$( mktemp .unpathifyXXXXXXXX )
+        trap "rm -f $tmp" 0 1 15
+        trap "echo 'Interrupt received, aborting' >&2;rm -f $tmp;exit 1" 2
+
+        cat > $tmp
+        if ! ( grep -q $delim $tmp ); then
             echo "ACK! Delimiter '$delim' not found in input stream" >&2
             return 1
         fi
-        tr "$delim" '\n' | sort
+        <$tmp tr "$delim" '\n' | sort
     fi
 
     # restore the previous 'xtrace' shell option
