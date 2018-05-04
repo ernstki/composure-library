@@ -59,7 +59,7 @@ unpathify ()
         fi
         echo "${!var}" | tr "$delim" '\n' | sort
     else
-        local tmp=$( mktemp -b unpathify )
+        local tmp=$( mktemp -p unpathify-XXXXXX )
         trap "rm -f $tmp" 0 1 15
         trap "echo 'Interrupt received, aborting' >&2;rm -f $tmp;exit 1" 2
 
