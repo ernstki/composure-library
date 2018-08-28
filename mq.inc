@@ -44,6 +44,20 @@ mq ()
             shift; continue
         fi
 
+        # ...or else if it's one of the "defaults group" suffixes in ~/.my.cnf
+        if [[ -f ~/.my.cnf ]]; then
+            local -a suffixes
+            # split on '[', ']', and ':' and print only if there is a $3
+            suffixes=($(awk -F'[]:[]'  '/^\[/{if(length($3)>0){print $3}}' \
+                        ~/.my.cnf | sort -u))
+            for suffix in "${suffixes[@]}"; do
+                if [[ $1 = $suffix ]]; then
+                    mysqlhost=$1
+                    shift; continue 2
+                fi
+            done
+        fi
+
         # If the argument looks like a command-line option...
         if [[ $1 =~ ^- ]]; then
             if [[ $1 =~ ^--?q ]]; then
