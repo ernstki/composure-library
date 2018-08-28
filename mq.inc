@@ -2,7 +2,7 @@ mq ()
 {
     author 'Kevin Ernst';
     about 'Query appropriate dev/prod MySQL server (using credentials in ~/.my.cnf)';
-    param "$1 (optional)  database host; default 'bmirsch{p|d}04my' ";
+    param "$1 (optional)  database host or my.cnf group suffix; default 'bmirsch{p|d}04my' ";
     param "$2 (optional)  database name; default 'bedintersect' ";
     param "$3 (optional)  options to 'mysql', e.g., '--skip-column-names' ";
     param "$4             quoted string of SQL commands to execute";
@@ -90,7 +90,7 @@ mq ()
     shorthost=${mysqlhost%%.*}
     if [ -z "$quiet" ];  then
         echo >&2
-        echo "Running SQL query [db: $db, host: ${shorthost}]" >&2
+        echo "Running SQL query [db: $db, host/group suffix: ${shorthost}]" >&2
         echo >&2
         echo "  $( fold -sw72 <<<"$sql" | sed 's/\(.*\)/>  \1/' )" >&2
         echo >&2
