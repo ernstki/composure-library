@@ -6,7 +6,7 @@ headers ()
     param '-F|-d|--delim - the delimiter (default: tab)'
     group 'text processing'
 
-    local delim, filename
+    local delim filename
 
     while (( $# )); do
         case $1 in
