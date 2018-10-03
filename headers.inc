@@ -11,12 +11,23 @@ headers ()
 
     while (( $# )); do
         case $1 in
-            -d|-F|--delim)
-                shift;
-                if (( ${#1} != 1 )); then
-                    echo "ACK! Delimiter must be a one-character string." >&2
+            -d*|-F*|--delim*)
+                # if the delimiter is stuck to the option switch, break it off
+                if [[ $1 =~ -(d|F).+ || $1 =~ --delim=.+ ]]; then
+                    delim=${1##-d}
+                    delim=${1##-F}
+                    delim=${1##--delim=}
+                    continue
+                fi
+
+                # otherwise, the delimiter comes next
+                shift
+                
+                if [[ -z $1 || -f $1 ]]; then
+                    echo "ACK! Missing argument to delimiter (-d) option." >&2
                     return 1
                 fi
+
                 delim=$1
                 ;;
             *)
