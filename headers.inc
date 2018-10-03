@@ -32,7 +32,7 @@ headers ()
     awk -F "$delim" '
         NR==1 {
             for (i=1; i<=NF; i++) {
-                printf("%s\n", gsub(/"/, "", $i);
+                printf("%s\n", gsub("\"", "", $i);
             }
         }' "$filename"
 }
