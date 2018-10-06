@@ -1,5 +1,6 @@
 headers () 
 { 
+    set -x
     author 'Kevin Ernst'
     about 'Prints the header row from a delimited file, one per line.'
     param '$1 - the filename to print the headers from'
@@ -38,7 +39,7 @@ headers ()
                 fi
                 ;;
         esac
-        shift;
+        shift
     done
 
     awk -F "$delim" '
@@ -48,4 +49,5 @@ headers ()
                 printf("%s\n", $i);
             }
         }' "$filename"
+    set +x
 }
