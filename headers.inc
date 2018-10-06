@@ -14,7 +14,7 @@ headers ()
         case $1 in
             -d*|-F*|--delim*)
                 # if the delimiter is stuck to the option switch, break it off
-                if [[ $1 =~ -(d|F).+ || $1 =~ --delim=.+ ]]; then
+                if [[ $1 =~ ^-(d|F).+ || $1 =~ ^--delim=.+ ]]; then
                     delim=${1##-d}
                     delim=${1##-F}
                     delim=${1##--delim=}
