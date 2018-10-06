@@ -7,7 +7,7 @@ headers ()
     param '-F|-d|--delim - the delimiter (default: tab)'
     group 'text processing'
 
-    local delim=$'\t'
+    local delim=',|\t'
     local filename
 
     while (( $# )); do
