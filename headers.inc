@@ -18,6 +18,7 @@ headers ()
                     delim=${1##-d}
                     delim=${1##-F}
                     delim=${1##--delim=}
+                    shift
                     continue
                 fi
 
