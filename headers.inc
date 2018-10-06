@@ -1,6 +1,6 @@
 headers () 
 { 
-    set -x
+    # set -x
     author 'Kevin Ernst'
     about 'Prints the header row from a delimited file, one per line.'
     param '$1 - the filename to print the headers from'
@@ -35,7 +35,7 @@ headers ()
             *)
                 filename=$1
                 if [[ ! -f $filename ]]; then
-                    echo "ACK! File '$filename does not exist." >&2
+                    echo "ACK! File '$filename' does not exist." >&2
                     return 1
                 fi
                 ;;
@@ -50,5 +50,5 @@ headers ()
                 printf("%s\n", $i);
             }
         }' "$filename"
-    set +x
+    # set +x
 }
