@@ -47,7 +47,7 @@ headers ()
         NR==1 {
             for (i=1; i<=NF; i++) {
                 gsub(/"/, "", $i)
-                printf("%s\n", $i);
+                printf("[%i] %s\n", i, $i);
             }
         }' "$filename"
     # set +x
