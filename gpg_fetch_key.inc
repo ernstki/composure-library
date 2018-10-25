@@ -1,6 +1,6 @@
 gpg_fetch_key ()
 {
-    KEYSERVER=${KEYSERVER:-pgp.mit.edu}
+    KEYSERVER=${KEYSERVER:-hkp://p80.pool.sks-keyservers.net:80}
 
     author 'Kevin Ernst'
     about 'fetches a GPG keyring from $KEYSERVER and adds to the default keyring'
