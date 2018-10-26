@@ -11,6 +11,11 @@ divide ()
     local DEFAULT_PARTS=50
     local parts inputfile inputlines basename ext
 
+    if [[ $1 -lt 1 || $1 =~ ^--?h ]]; then
+        reference divide
+        return 1
+    fi
+
     # make things easier below by preventing slashes in 'inputfile'
     if [[ $inputfile =~ / ]]; then
         echo "OH NOES! Sorry, no slashes allowed in 'inputfile' parameter." >&2
