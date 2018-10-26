@@ -39,6 +39,18 @@ divide ()
                 ;;
 
             *)
+                # allow the number before or after the filename, too; if you
+                # also use '-n', the last one wins
+
+                # check to see if $1's an integer
+                # source: http://stackoverflow.com/a/806923
+                if [[ $1 =~ ^[0-9]+ ]]; then
+                    parts=$1
+                    shift
+                    continue
+                fi
+
+                # otherwise, assume it's a filename (but check)
                 inputfile=$1
 
                 if [[ ! -f $inputfile ]]; then
@@ -47,6 +59,7 @@ divide ()
                 fi
                 ;;
         esac
+
         shift  # otherwise, you'd loop infinitely. true story, bro.
     done
 
