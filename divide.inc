@@ -70,7 +70,7 @@ divide ()
     done
 
     # count lines in input file
-    inputlines=$(wc -l "$inputfile" | awk '{print $1}')
+    inputlines=$(cat "$inputfile" | wc -l)
 
     # this works, but is like 4× slower
     #inputlines=$(awk '{count++} END{print count}' "$inputfile")
