@@ -11,7 +11,7 @@ divide ()
     local DEFAULT_PARTS=50
     local parts inputfile inputlines basename ext
 
-    if [[ $1 -lt 1 || $1 =~ ^--?h ]]; then
+    if [[ $# -lt 1 || $1 =~ ^--?h ]]; then
         reference divide
         return 1
     fi
