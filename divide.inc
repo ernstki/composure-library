@@ -64,3 +64,5 @@ divide ()
         echo mv "$part" "${part}.$ext"
     done
 }
+
+# vim: ft=sh
