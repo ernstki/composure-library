@@ -2,7 +2,7 @@ divide ()
 {
     author 'Kevin Ernst'
     about 'Divides the input file into n parts'
-    param '-n|-p|--n-parts|--parts N - divide $1 into this many parts'
+    param '{-n|-p|--parts} N - divide $1 into N parts'
     param '$1 - input file to divide into N parts (default 50)'
     example 'divide -n 100 input.txt'
     group 'util'
@@ -24,11 +24,10 @@ divide ()
 
     while (( $# )); do
         case $1 in
-            -n*|-p*|--n-parts*|--parts*)
-                if [[ $1 =~ ^-(n|p|-n-parts=|-parts=).+ ]]; then
+            -n*|-p*|--parts*)
+                if [[ $1 =~ ^-(n|p|-parts=).+ ]]; then
                     parts=${1##-n}
                     parts=${1##-p}
-                    parts=${1##--n-parts=}
                     parts=${1##--parts=}
                     shift
                     continue
