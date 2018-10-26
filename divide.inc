@@ -62,9 +62,9 @@ divide ()
         --lines=$(( inputlines / parts )) "$inputfile" "$basename"
 
     # add the extension back on to the parts
-    #for part in ${basename}[0-9][0-9][0-9]; do
-    #    echo mv "$part" "${part}.$ext"
-    #done
+    for part in $basename[0-9][0-9][0-9]; do
+        echo mv "$part" "${part}.$ext"
+    done
 
     # set +x
 }
