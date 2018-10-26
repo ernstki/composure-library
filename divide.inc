@@ -9,6 +9,8 @@ divide ()
 
     local parts=50 inputfile inputlines basename ext
 
+    set -x
+
     # make things easier below by preventing slashes in 'inputfile'
     if [[ $inputfile =~ / ]]; then
         echo "OH NOES! Sorry, no slashes allowed in 'inputfile' parameter." >&2
@@ -63,6 +65,8 @@ divide ()
     for part in $basename[0-9][0-9][0-9]; do
         echo mv "$part" "${part}.$ext"
     done
+
+    set +x
 }
 
 # vim: ft=sh
