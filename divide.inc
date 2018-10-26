@@ -70,7 +70,10 @@ divide ()
     done
 
     # count lines in input file
-    inputlines=$(awk '{count++} END{print count}' "$inputfile")
+    inputlines=$(wc -l "$inputfile" | awk '{print $1}')
+
+    # this works, but is like 4× slower
+    #inputlines=$(awk '{count++} END{print count}' "$inputfile")
 
     # divide the filename into basename and extension parts
     basename=${inputfile%%.*}
