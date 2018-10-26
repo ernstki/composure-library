@@ -2,13 +2,14 @@ divide ()
 {
     author 'Kevin Ernst'
     about 'Divides the input file into n parts'
-    param '-n|--n-parts|--parts N - divide $1 into this many parts'
+    param '-n|-p|--n-parts|--parts N - divide $1 into this many parts'
     param '$1 - input file to divide into N parts (default 50)'
     example 'divide -n 100 input.txt'
     group 'util'
 
     # set -x
-    local parts=50 inputfile inputlines basename ext
+    local DEFAULT_PARTS=50
+    local parts inputfile inputlines basename ext
 
     # make things easier below by preventing slashes in 'inputfile'
     if [[ $inputfile =~ / ]]; then
@@ -18,9 +19,10 @@ divide ()
 
     while (( $# )); do
         case $1 in
-            -n*|--n-parts*|--parts*)
-                if [[ $1 =~ ^-(n|-n-parts=|-parts=).+ ]]; then
+            -n*|-p*|--n-parts*|--parts*)
+                if [[ $1 =~ ^-(n|p|-n-parts=|-parts=).+ ]]; then
                     parts=${1##-n}
+                    parts=${1##-p}
                     parts=${1##--n-parts=}
                     parts=${1##--parts=}
                     shift
@@ -69,6 +71,12 @@ divide ()
     # divide the filename into basename and extension parts
     basename=${inputfile%%.*}
     ext=${inputfile#*.}
+
+    # set default 'parts' if it wasn't specified on the command line
+    if [[ -z $parts ]]; then
+        echo "INFO: using default 'parts' (-n) of 50." >&2
+        parts=$DEFAULT_PARTS
+    fi
 
     # same as 'split -a3 -dl ...'
     split --suffix-length=3 --numeric-suffixes \
