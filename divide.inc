@@ -30,7 +30,7 @@ divide ()
                 shift
 
                 if [[ -z $1 || -f $1 ]]; then
-                    echo "OH NOES! Missing argument to 'parts' (-n) option." &>2
+                    echo "OH NOES! Missing argument to 'parts' (-n) option." >&2
                     return 1
                 fi
 
