@@ -7,9 +7,8 @@ divide ()
     example 'divide -n 100 input.txt'
     group 'util'
 
+    # set -x
     local parts=50 inputfile inputlines basename ext
-
-    set -x
 
     # make things easier below by preventing slashes in 'inputfile'
     if [[ $inputfile =~ / ]]; then
@@ -48,6 +47,7 @@ divide ()
                 fi
                 ;;
         esac
+        shift  # otherwise, you'd loop infinitely. true story, bro.
     done
 
     # count lines in input file
@@ -66,7 +66,7 @@ divide ()
         echo mv "$part" "${part}.$ext"
     done
 
-    set +x
+    # set +x
 }
 
 # vim: ft=sh
