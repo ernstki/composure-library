@@ -38,10 +38,10 @@ divide ()
                 ;;
 
             *)
-                filename=$1
+                inputfile=$1
 
-                if [[ ! -f $filename ]]; then
-                    echo "OH NOES! File '$filename' does not exist." >&2
+                if [[ ! -f $inputfile ]]; then
+                    echo "OH NOES! File '$inputfile' does not exist." >&2
                     return 1
                 fi
                 ;;
