@@ -5,5 +5,5 @@ prefix ()
     param ''
     example ''
     group ''
-    which prefix
+    doclip | sed 's/\(.*\)/# \1/'
 }
