@@ -32,7 +32,6 @@ prefix ()
         fi
         sed "s/\\(.*\\)/$prefix\\1/" "$file"
     else
-        echo "UNIMPLEMENTED" >&2
-        return 1
+        sed "s/\\(.*\\)/$prefix\\1/"
     fi
 } # vim: ft=sh
