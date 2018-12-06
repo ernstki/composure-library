@@ -10,9 +10,10 @@ dropshadow ()
 
     test -n "$1" || { reference dropshadow; return 1; }
 
-    test -f "$1" -a -r "$1" || \
-        echo "OH NOES! Input file '$1' is nonexistent/unreadable." >&2 && \
+    test -f "$1" -a -r "$1" || {
+        echo "OH NOES! Input file '$1' is nonexistent/unreadable." >&2
         return 1
+    }
 
     convert "$1" -bordercolor white $BORDER \
         \( +clone -background black -shadow 80x3+2+2 \) +swap \
