@@ -6,6 +6,7 @@ dropshadow ()
     example 'dropshadow image.jpg'
     group 'imageprocessing'
 
+    set -x
     local BORDER='-border 13'
 
     if [[ $1 =~ ^--?b ]]; then
@@ -35,5 +36,7 @@ dropshadow ()
         \( +clone -background black -shadow 80x3+2+2 \) +swap \
         -background white -layers merge +repage \
         "${1%.*}+shadow.${1##*.}"
+
+    set +x
 }
 # vim: ft=sh
