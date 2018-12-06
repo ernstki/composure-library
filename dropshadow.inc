@@ -18,7 +18,7 @@ dropshadow ()
                 BORDER="-border $1"
                 shift
             else
-                echo "OH NOES! Invalid border size '$1'." >&2
+                echo "OH NOES! Invalid border size (must be an integer)." >&2
                 return 1
             fi
         fi
