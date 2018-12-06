@@ -8,7 +8,7 @@ dropshadow ()
 
     local BORDER='-border 13'
 
-    test -n "$1" || reference dropshadow && return 1
+    test -n "$1" || { reference dropshadow; return 1; }
 
     test -f "$1" -a -r "$1" || \
         echo "OH NOES! Input file '$1' is nonexistent/unreadable." >&2 && \
