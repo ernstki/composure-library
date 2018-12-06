@@ -6,11 +6,12 @@ dropshadow ()
     example 'dropshadow image.jpg'
     group 'imageprocessing'
 
-    test -n "$1" || ( reference dropshadow && return 1 )
+    test -n "$1" || ( reference dropshadow; return 1 )
 
-    test -f "$1" -a -r "$1" || \
-        echo "OH NOES! Input file '$1' is nonexistent/unreadable." >&2 && \
+    test -f "$1" -a -r "$1" || (
+        echo "OH NOES! Input file '$1' is nonexistent/unreadable." >&2;
         return 1
+    )
 
     set -x
     convert "$1" -bordercolor white -border 13 \
