@@ -8,6 +8,7 @@ dropshadow ()
 
     set -x
     local BORDER='-border 13'
+    local BORDERCOLOR='-bordercolor #777'
 
     if [[ $1 =~ ^--?b ]]; then
         if [[ $1 =~ ^--?b(order)?=?([0-9])+$ ]]; then
@@ -32,7 +33,7 @@ dropshadow ()
         return 1
     }
 
-    convert "$1" -bordercolor white $BORDER \
+    convert "$1" $BORDERCOLOR $BORDER \
         \( +clone -background black -shadow 80x3+2+2 \) +swap \
         -background white -layers merge +repage \
         "${1%.*}+shadow.${1##*.}"
