@@ -8,7 +8,7 @@ dropshadow ()
 
     test -f "$1" -a -r "$1" || \
         echo "OH NOES! Input file '$1' is nonexistent/unreadable." >&2 && \
-        exit 1
+        return 1
 
     convert "$1" -bordercolor white -border 13 \
         \( +clone -background black -shadow 80x3+2+2 \) +swap \
