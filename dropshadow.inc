@@ -8,6 +8,22 @@ dropshadow ()
 
     local BORDER='-border 13'
 
+    if [[ $1 =~ ^--?b ]]; then
+        if [[ $1 =~ ^--?b(order)?=?([0-9])+$ ]]; then
+            BORDER="-border ${BASH_REMATCH[1]}"
+            shift
+        else
+            shift
+            if [[ $1 =~ ^[0-9]+$ ]]; then
+                BORDER="-border $1"
+                shift
+            else
+                echo "OH NOES! Invalid border size '$1'." >&2
+                return 1
+            fi
+        fi
+    fi # check for '-b' / '--border' option
+
     test -n "$1" || { reference dropshadow; return 1; }
 
     test -f "$1" -a -r "$1" || {
