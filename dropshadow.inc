@@ -11,7 +11,7 @@ dropshadow ()
 
     if [[ $1 =~ ^--?b ]]; then
         if [[ $1 =~ ^--?b(order)?=?([0-9])+$ ]]; then
-            BORDER="-border ${BASH_REMATCH[1]}"
+            BORDER="-border ${BASH_REMATCH[2]}"
             shift
         else
             shift
