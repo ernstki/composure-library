@@ -9,7 +9,7 @@ divide ()
 
     # set -x
     local DEFAULT_PARTS=50
-    local parts inputfile inputlines basename ext
+    local parts inputfile inputlines basename ext linesperfile
 
     if [[ $# -lt 1 || $1 =~ ^--?h ]]; then
         reference divide
@@ -75,9 +75,11 @@ divide ()
     # this works, but is like 4× slower
     #inputlines=$(awk '{count++} END{print count}' "$inputfile")
 
-    # divide the filename into basename and extension parts
+    # divide the filename into basename and extension parts, but only if
+    # the file seems to have an extension; note that if the file ends
+    # with a period, it will be stripped off
     basename=${inputfile%%.*}
-    ext=${inputfile#*.}
+    [[ $inputfile =~ \..* ]] && ext=${inputfile#*.}
 
     # set default 'parts' if it wasn't specified on the command line
     if [[ -z $parts ]]; then
@@ -85,14 +87,24 @@ divide ()
         parts=$DEFAULT_PARTS
     fi
 
+    linesperfile=$(( inputlines / parts ))
+
+    # if there aren't actually enough lines to split...
+    if (( linesperfile == 0 )); then
+        echo "OH NOES! File isn't big enough to split into $parts parts." >&2
+        return 1
+    fi
+
     # same as 'split -a3 -dl ...'
     split --suffix-length=3 --numeric-suffixes \
-        --lines=$(( inputlines / parts )) "$inputfile" "$basename"
+        --lines=$linesperfile "$inputfile" "$basename"
 
-    # add the extension back on to the parts
-    for part in $basename[0-9][0-9][0-9]; do
-        mv "$part" "${part}.$ext"
-    done
+    # add the extension back on to the parts (if there was one)
+    if [[ -n $ext ]]; then 
+        for part in $basename[0-9][0-9][0-9]; do
+            mv "$part" "${part}$ext"
+        done
+    fi
 
     # set +x
 }
