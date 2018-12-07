@@ -76,10 +76,12 @@ divide ()
     #inputlines=$(awk '{count++} END{print count}' "$inputfile")
 
     # divide the filename into basename and extension parts, but only if
-    # the file seems to have an extension; note that if the file ends
-    # with a period, it will be stripped off
+    # the file seems to have an extension
     basename=${inputfile%%.*}
     [[ $inputfile =~ \..* ]] && ext=${inputfile#*.}
+    # note that if the file ends with a period, all the split parts WILL end
+    # in a period, too; this seems to be a quirk of 'split', even if you give
+    # it a PREFIX with no period
 
     # set default 'parts' if it wasn't specified on the command line
     if [[ -z $parts ]]; then
@@ -95,8 +97,6 @@ divide ()
         return 1
     fi
 
-    echo "inputfile=$inputfile basename=$basename"
-    return 1
     # same as 'split -a3 -dl ...'
     split --suffix-length=3 --numeric-suffixes \
         --lines=$linesperfile "$inputfile" "$basename"
