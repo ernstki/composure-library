@@ -95,6 +95,8 @@ divide ()
         return 1
     fi
 
+    echo "inputfile=$inputfile basename=$basename"
+    return 1
     # same as 'split -a3 -dl ...'
     split --suffix-length=3 --numeric-suffixes \
         --lines=$linesperfile "$inputfile" "$basename"
