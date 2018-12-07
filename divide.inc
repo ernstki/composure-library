@@ -79,9 +79,7 @@ divide ()
     # the file seems to have an extension
     basename=${inputfile%%.*}
     [[ $inputfile =~ \..* ]] && ext=${inputfile#*.}
-    # note that if the file ends with a period, all the split parts WILL end
-    # in a period, too; this seems to be a quirk of 'split', even if you give
-    # it a PREFIX with no period
+    # note that if the file ends with a period, that gets stripped
 
     # set default 'parts' if it wasn't specified on the command line
     if [[ -z $parts ]]; then
