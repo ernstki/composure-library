@@ -102,7 +102,7 @@ divide ()
     # add the extension back on to the parts (if there was one)
     if [[ -n $ext ]]; then 
         for part in $basename[0-9][0-9][0-9]; do
-            mv "$part" "${part}$ext"
+            mv "$part" "${part}.$ext"
         done
     fi
 
