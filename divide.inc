@@ -16,12 +16,6 @@ divide ()
         return 1
     fi
 
-    # make things easier below by preventing slashes in 'inputfile'
-    if [[ $inputfile =~ / ]]; then
-        echo "OH NOES! Sorry, no slashes allowed in 'inputfile' parameter." >&2
-        return 1
-    fi
-
     while (( $# )); do
         case $1 in
             -n*|-p*|--parts*)
@@ -62,6 +56,9 @@ divide ()
                 if [[ ! -f $inputfile ]]; then
                     echo "OH NOES! File '$inputfile' does not exist." >&2
                     return 1
+                elif [[ $inputfile =~ / ]]; then
+                    echo "Sorry, input file must be in the working directory." >&2
+                    return 1
                 fi
                 ;;
         esac
@@ -69,8 +66,8 @@ divide ()
         shift  # otherwise, you'd loop infinitely. true story, bro.
     done
 
-    # count lines in input file
-    inputlines=$(cat "$inputfile" | wc -l)
+    # when 'wc' receives its input on stdin, it doesn't print the filename
+    inputlines=$(<"$inputfile" wc -l)
 
     # this works, but is like 4× slower
     #inputlines=$(awk '{count++} END{print count}' "$inputfile")
