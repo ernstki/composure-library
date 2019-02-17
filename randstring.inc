@@ -8,4 +8,5 @@ randstring ()
     example 'randstring 40  # generate 40-byte token, maybe for an API'
     group 'util'
     base64 /dev/urandom | tr -d "${2:-/+O0l1I}" | head -c ${1:-32} 
+    echo  # add a final newline, since 'head -c' will remove it
 }
