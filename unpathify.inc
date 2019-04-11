@@ -53,25 +53,28 @@ unpathify ()
     # If stdin is a terminal, then...
     if [ -t 0 ]; then 
         # Just return an error if the delimiter isn't found
-        if ! ( grep -q $delim <<<${!var} ); then
+        if ! ( grep -q "$delim" <<<"${!var}" ); then
             echo "ACK! Delimiter '$delim' not found in variable '\$$var'" >&2
             return 1
         fi
-        echo "${!var}" | tr "$delim" '\n' | sort
+        echo "${!var}" | tr "$delim" '\n'
     else
-        local tmp=$( mktemp -t unpathify-XXXXXX )
-        trap "rm -f $tmp" 0 1 15
-        trap "echo 'Interrupt received, aborting' >&2;rm -f $tmp;exit 1" 2
+        local tmp
+        tmp=$( mktemp -t unpathify-XXXXXX )
+        # traps don't work in functions
+        # trap "rm -f $tmp" 0 1 15
+        # trap "echo 'Interrupt received, aborting' >&2;rm -f $tmp;exit 1" 2
 
-        cat > $tmp
-        if ! ( grep -q $delim $tmp ); then
+        cat > "$tmp"
+        if ! ( grep -q "$delim" "$tmp" ); then
             echo "ACK! Delimiter '$delim' not found in input stream" >&2
             return 1
         fi
-        <$tmp tr "$delim" '\n' | sort
+        <"$tmp" tr "$delim" '\n'
+        test -n "$tmp" -a -f "$tmp" && rm -f "$tmp"
     fi
 
     # restore the previous 'xtrace' shell option
-    [[ $SETXTRACE = 'on' ]] && set -x || set +x
+    if [[ $SETXTRACE = 'on' ]]; then set -x; else set +x; fi
 }
 # vim: ft=sh
