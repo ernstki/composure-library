@@ -6,9 +6,10 @@ spl ()
     example 'echo \$PATH | spl | sort | uniq -d'
     group 'util'
 
-    local file
-    local stringx
+    local file=
+    local string=
     local delim=' :,\t'
+    local TRACE=${TRACE:-0}
 
     while (( $# )); do
         if [[ $1 =~ ^--?d* ]]; then
@@ -22,10 +23,18 @@ spl ()
         shift
     done
 
-    if [ -n "$string" ]; then
-        tr "$delim" '\n' <<<"$string" | sed '/^[    ]*$/d'
+    (( TRACE )) && set -x
+    # if stdin is a terminal (not reading from a pipe)
+    if [[ -t 0 ]]; then
+        if [[ -n $string ]]; then
+            tr "$delim" '\n' <<<"$string" | sed '/^[    ]*$/d'
+        else
+            <"$file" tr "$delim" '\n' | sed '/^[    ]*$/d'
+        fi
     else
-        cat "$file" | tr "$delim" '\n'  | sed '/^[    ]*$/d'
+        tr "$delim" '\n' | sed '/^[    ]*$/d'
     fi
-
+    set +x
 }
+
+# vim: ft=sh tw=78 sw=4 ts=4 expandtab
