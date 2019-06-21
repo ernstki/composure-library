@@ -6,10 +6,10 @@ ltail ()
     example 'ltail rmd-shiny  # tails last log file starting with "rmd-shiny"'
     group 'util'
 
-    local pat=
-    [[ -n ${1-} ]] && pat="$1*"
+    local latest
+    local pat=${1:+$1*}
 
-    tail -f $(
+    latest=$(
         \ls -t $pat | \
             while read thing; do
                 if [[ -f $thing ]]; then
@@ -18,4 +18,6 @@ ltail ()
                 fi
             done
     )
+
+    ( set -x; tail -f "$latest" )
 }
