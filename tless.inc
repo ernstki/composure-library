@@ -43,7 +43,7 @@ ERRMSG
     # then, use 'column' to make a table (-t), using ONLY tabs as delims (-s)
     # finally, pipe through 'less' without breaking long lines (-S)
     awk \
-        -F'\t' -vOFS='\t' -vNULL="$nullchar" \
+        -F '\t' -v OFS='\t' -vNULL="$nullchar" \
         '{for(i=1; i<=NF; i++){if($i==""){$i=NULL}};print}' \
         "${1:-}" \
       | column -s $'\t' -t \
