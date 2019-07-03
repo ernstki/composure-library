@@ -45,7 +45,7 @@ ERRMSG
     awk \
         -F '\t' -v OFS='\t' -v NULL="$nullchar" \
         '{for(i=1; i<=NF; i++){if($i==""){$i=NULL}};print}' \
-        "${1:-}" \
+        ${1:-} \
       | column -s $'\t' -t \
       | less -S
 }
