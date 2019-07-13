@@ -5,5 +5,5 @@ lsd ()
     param 'none'
     example ''
     group 'filesystem'
-    find ./* -maxdepth 0 -type d | sed 's#^\./##'
+    find -mindepth 1 -maxdepth 1 -type d | sed 's#^\./##'
 }
