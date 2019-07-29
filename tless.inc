@@ -47,7 +47,7 @@ ERRMSG
         '{for(i=1; i<=NF; i++){if($i==""){$i=NULL}};print}' \
         ${1:-} \
       | column -s $'\t' -t \
-      | less -S
+      | less -F -S -X
 }
 
 # vim: ft=sh
