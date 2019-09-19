@@ -11,6 +11,8 @@ prefix ()
 
     local DEFAULT_PREFIX='# '
     local DEFAULT_SPACES=4
+    local PAT_INTEGER='^[1-9][0-9]+$'
+    local PAT_CUDDLED_DASH_S='^--?s(paces)?=?([1-9][0-9]+)?$'
 
     local prefix=$DEFAULT_PREFIX
     local spaces=$DEFAULT_SPACES
@@ -18,13 +20,13 @@ prefix ()
 
     while (( $# )); do
         # recognize '-sINT' or '--spaces=INT' options
-        if [[ $1 =~ ^--?s(paces)?=?([1-9][0-9]+)? ]]; then
+        if [[ $1 =~ $PAT_CUDDLED_DASH_S ]]; then
             shift
             # if the integer argument is "cuddled"
             if [[ ${BASH_REMATCH[2]} ]]; then
                 spaces=${BASH_REMATCH[2]}
             # if the next argument looks like an integer
-            elif [[ $1 =~ ^[1-9][0-9]+$ ]]; then
+            elif [[ $1 =~ $PAT_INTEGER ]]; then
                 spaces=$1
                 shift
             fi
