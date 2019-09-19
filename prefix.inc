@@ -27,7 +27,7 @@ prefix ()
             shift
 
             # if the integer argument is "cuddled" (BASH_REMATCH[2] is '=')
-            if [[ ${BASH_REMATCH[2]} && ${BASH_REMATCH[3]} ]]; then
+            if [[ ${BASH_REMATCH[3]} ]]; then
                 spaces=${BASH_REMATCH[3]}
                 continue
             fi
