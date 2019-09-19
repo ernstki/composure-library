@@ -50,7 +50,8 @@ prefix ()
 
     # build up prefix string if '-s' / '--spaces' option given
     if (( indent_with_spaces )); then
-        for (( i = 0; i < spaces; i++ )); do
+        prefix=' '
+        for (( i = 1; i < spaces; i++ )); do
             prefix+=' '
         done
     fi
@@ -64,8 +65,8 @@ prefix ()
             echo "ACK! Input file '$file doesn't exist or isn't readable." >&2
             return 1
         fi
-        sed "s/\\(.*\\)/$prefix\\1/" "$file"
+        sed "s/.*/$prefix&/" "$file"
     else
-        sed "s/\\(.*\\)/$prefix\\1/"
+        sed "s/.*/$prefix&/"
     fi
 } # vim: ft=sh
