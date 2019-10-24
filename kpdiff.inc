@@ -3,6 +3,8 @@
 kptsv()
 {
     (( TRACE )) && set -x
+    trap "set +x" RETURN
+
     if [[ -z ${1:-} || -f ${1:-} ]]; then
         echo "ERROR: need a KeePass XML export file as first argument." >&2
         return 1
@@ -17,7 +19,6 @@ kptsv()
                     String/Key[.="Password"]/../Value, "\t",
                     String/Key[.="URL"]/../Value)' \
         -n "$1"
-    set +x
 } # kptsv
 
 #export -f kptsv
@@ -33,6 +34,7 @@ kpdiff ()
     group 'security'
 
     (( TRACE )) && set -x
+    trap "set +x" RETURN
 
     if [[ -z ${1:-} || -z ${2:-} || $1 != *.xml || ! $2 != *.xml ]]; then 
         echo "ERROR: need two KeePass XML export files as arguments." >&2
@@ -40,7 +42,6 @@ kpdiff ()
     fi
 
     sdiff --supress-common-lines <(kptsv "$1") <(kptsv "$2")
-    set +x
 } # kpdiff
 
 # vim: ft=sh
