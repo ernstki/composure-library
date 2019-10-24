@@ -56,6 +56,7 @@ kpdiff ()
                 fi
                 ;;
         esac
+        shift
     done
 
     if [[ -z $x1 || -z $x2 || $x1 != *.xml || $x2 != *.xml ]]; then 
