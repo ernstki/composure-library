@@ -45,12 +45,18 @@ kpdiff ()
                 opts+=("$1")
                 ;;
             *)
+                # if it's not a file, assume it's an option/arg for 'sdiff'
+                if [[ ! -f $1 ]]; then
+                    opts+=("$1")
+                    shift; continue
+                fi
+
                 if [[ -z $x1 ]]; then
                     x1=$1
                 elif [[ -z $x2 ]]; then
                     x2=$1
                 else
-                    echo "ERROR: too many arguments. Try "\
+                    echo "ERROR: too many input file arguments. Try"\
                          "'reference kpdiff' for help." >&2
                     return 1
                 fi
