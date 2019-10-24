@@ -36,7 +36,7 @@ kpdiff ()
     (( TRACE )) && set -x
     trap "set +x" RETURN
 
-    if [[ -z ${1:-} || -z ${2:-} || $1 != *.xml || ! $2 != *.xml ]]; then 
+    if [[ -z ${1:-} || -z ${2:-} || $1 != *.xml || $2 != *.xml ]]; then 
         echo "ERROR: need two KeePass XML export files as arguments." >&2
         return 1
     fi
