@@ -33,15 +33,37 @@ kpdiff ()
     example 'kpdiff conflict.xml good.xml'
     group 'security'
 
+    local opts=(--suppress-common-lines)
+    local x1= x2=
+
     (( TRACE )) && set -x
     trap "set +x" RETURN
 
-    if [[ -z ${1:-} || -z ${2:-} || $1 != *.xml || $2 != *.xml ]]; then 
+    while (( $# )); do
+        case "$1" in
+            -*)
+                opts+=("$1")
+                ;;
+            *)
+                if [[ -z $x1 ]]; then
+                    x1=$1
+                elif [[ -z $x2 ]]; then
+                    x2=$1
+                else
+                    echo "ERROR: too many arguments. Try "\
+                         "'reference kpdiff' for help." >&2
+                    return 1
+                fi
+                ;;
+        esac
+    done
+
+    if [[ -z $x1 || -z $x2 || $x1 != *.xml || $x2 != *.xml ]]; then 
         echo "ERROR: need two KeePass XML export files as arguments." >&2
         return 1
     fi
 
-    sdiff --suppress-common-lines <(kptsv "$1") <(kptsv "$2")
+    sdiff ${opts[*]} <(kptsv "$x1") <(kptsv "$x2")
 } # kpdiff
 
 # vim: ft=sh
