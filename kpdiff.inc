@@ -5,7 +5,7 @@ kptsv()
     (( TRACE )) && set -x
     trap "set +x" RETURN
 
-    if [[ -z ${1:-} || -f ${1:-} ]]; then
+    if [[ -z ${1:-} || ! -f ${1:-} ]]; then
         echo "ERROR: need a KeePass XML export file as first argument." >&2
         return 1
     fi
