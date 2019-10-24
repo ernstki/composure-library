@@ -41,7 +41,7 @@ kpdiff ()
         return 1
     fi
 
-    sdiff --supress-common-lines <(kptsv "$1") <(kptsv "$2")
+    sdiff --suppress-common-lines <(kptsv "$1") <(kptsv "$2")
 } # kpdiff
 
 # vim: ft=sh
