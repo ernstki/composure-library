@@ -23,6 +23,8 @@ xml2delim ()
     local outputs=()              # could be XPaths or quoted strings
     local xpath sortkey sortorder sorttype concatexpr sep
 
+    (( ${TRACE:-} )) && set -x; trap "set +x" RETURN
+
     if (( $# == 0 )); then
         reference "$ME"
         return
