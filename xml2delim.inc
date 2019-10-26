@@ -40,10 +40,10 @@ xml2delim ()
                 xpath=$1
                 ;;
             -k|--key*)
-                if [[ $1 =~ --key=(.*) ]]; then
-                    sortkey=${BASH_REMATCH[1]}
+                if [[ $1 =~ --?k(ey.*=)?(.*) ]]; then
+                    sortkey=${BASH_REMATCH[2]}
                 else
-                    shift; sortkey=$1
+                    shift; sortkey=${1:?missing sort key}
                 fi
                 ;;
             -n|--num*)
