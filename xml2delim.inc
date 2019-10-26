@@ -23,6 +23,11 @@ xml2delim ()
     local outputs=()              # could be XPaths or quoted strings
     local xpath sortkey sortorder sorttype concatexpr sep
 
+    if (( $# == 0 )); then
+        reference "$ME"
+        return
+    fi
+
     while (( $# )); do
         case "$1" in
             -h|-\?|--h*)
