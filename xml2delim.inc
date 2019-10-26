@@ -3,23 +3,41 @@ xml2delim ()
 {
     author 'Kevin Ernst'
     about 'use XmlStarlet to output specific fields from XML input as tab-delimited'
-    param '-s|--separator - output field delimiter (default: tab)'
+    param "-h|--help             - you're looking at it ;-)"
+    param '-k|--key=XPATH        - sort key (XPath expression); can omit the "="'
+    param "-n|--num[*]           - sort numerically; accepts '--num', '--number', etc."
+    param '-t|--text             - sort on the key as text (dictionary order) (default)'
+    param '-a|--asc[ending]      - sort in ascending order (default)'
+    param '-d|--desc[ending]     - sort in descending order'
+    param '-s|--sep[arator]=SEP  - output field delimiter; can omit "=" (default: tab)'
+    param 'FIELD [FIELD...]      - literal string or XPath expression(s) to output'
     example 'xml2delim //item title dc:creator pubDate comments'
     example 'xml2delim //cl "'$pagetitle'" @title  # quote any literal strings'
     example 'xml2delim //c --sort-on @pages --sort-numeric --sort-desc . @pages'
     group 'xml'
 
     local ME='xml2delim'
-    local DEFAULT_SORT_ORDER='D'  # descending order
-    local DEFAULT_SORT_TYPE='N'   # numeric (as opposed to text)
+    local DEFAULT_SORT_ORDER='A'  # ascending order
+    local DEFAULT_SORT_TYPE='T'   # sort lexicographically (dictionary order)
     local DEFAULT_SEP=$'\t'       # tab-delimited by default
     local outputs=()              # could be XPaths or quoted strings
     local xpath sortkey sortorder sorttype concatexpr sep
 
     while (( $# )); do
         case "$1" in
+            -h|-\?|--h*)
+                reference "$ME"
+                return
+                ;;
             /*)
                 xpath=$1
+                ;;
+            -k|--key*)
+                if [[ $1 =~ --key=(.*) ]]; then
+                    sortkey=${BASH_REMATCH[1]}
+                else
+                    shift; sortkey=$1
+                fi
                 ;;
             -n|--num*)
                 sorttype='N'
@@ -33,15 +51,12 @@ xml2delim ()
             -d|--desc*)
                 sortorder='D'
                 ;;
-            -k|--key*)
-                if [[ $1 =~ --sort-key=(.*) ]]; then
-                    sortkey=${BASH_REMATCH[1]}
+            -s|--sep*|--delim)
+                if [[ $1 =~ --(sep.*|delim.*)=(.*) ]]; then
+                    sep=${BASH_REMATCH[2]}
                 else
-                    shift; sortkey=$1
+                    shift; sep=$1
                 fi
-                ;;
-            -s|--sep*)
-                sep=$1
                 ;;
             *)
                 outputs+=("$1")
