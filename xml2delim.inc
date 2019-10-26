@@ -95,7 +95,8 @@ xml2delim ()
     [[ -z $sorttype ]]  && sorttype=$DEFAULT_SORT_TYPE
     [[ -z $sortorder ]] && sortorder=$DEFAULT_SORT_ORDER
 
-    concatexpr='concat('
+    # this way it won't bomb if there's only one output field
+    concatexpr='concat("", '
 
     # $sep-delimit all the XPath expressions we want concat'd in the output
     for output in "${outputs[@]:0:${#outputs[@]}-1}"; do
