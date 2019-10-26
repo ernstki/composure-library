@@ -43,7 +43,7 @@ xml2delim ()
                 if [[ $1 =~ --?k(ey.*=)?(.+) ]]; then
                     sortkey=${BASH_REMATCH[2]}
                 else
-                    shift; sortkey=${1:?missing sort key for '-k' / '--key' option}
+                    shift; sortkey=${1:?"missing sort key for '-k' / '--key' option"}
                 fi
                 ;;
             -n|--num*)
