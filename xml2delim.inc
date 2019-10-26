@@ -60,10 +60,10 @@ xml2delim ()
                 ;;
             -s*|-F*|--sep*|--delim)
                 # also secretly accept '-F' like Awk ;-)
-                if [[ $1 =~ --(sep.*|delim.*)=(.*) ]]; then
+                if [[ $1 =~ --(sep.*|delim.*)=(.+) ]]; then
                     sep=${BASH_REMATCH[2]}
-                elif [[ $1 =~ -s(.+) ]]; then
-                    sep=${BASH_REMATCH[1]}
+                elif [[ $1 =~ -(s|F)(.+) ]]; then
+                    sep=${BASH_REMATCH[2]}
                 else
                     shift; sep=$1
                     # catch at least one possible problem here
