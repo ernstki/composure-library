@@ -56,11 +56,22 @@ xml2delim ()
             -d|--desc*)
                 sortorder='D'
                 ;;
-            -s|--sep*|--delim)
+            -s*|-F*|--sep*|--delim)
+                # also secretly accept '-F' like Awk ;-)
                 if [[ $1 =~ --(sep.*|delim.*)=(.*) ]]; then
                     sep=${BASH_REMATCH[2]}
+                elif [[ $1 =~ -s(.+) ]]; then
+                    sep=${BASH_REMATCH[1]}
                 else
                     shift; sep=$1
+                    # catch at least one possible problem here
+                    if [[ $sep == -* ]]; then
+                        echo >&2
+                        echo "ERROR: the '-s' / '--sep' option requires an"\
+                             "argument." >&2
+                        echo >&2
+                        return 1
+                    fi
                 fi
                 ;;
             *)
