@@ -3,6 +3,7 @@ xml2delim ()
 {
     author 'Kevin Ernst'
     about 'use XmlStarlet to output specific fields from XML input as tab-delimited'
+    param 'XPATH                 - XPath selector for node of interest'
     param "-h|--help             - you're looking at it ;-)"
     param '-k|--key=XPATH        - sort key (XPath expression); can omit the "="'
     param "-n|--num[*]           - sort numerically; accepts '--num', '--number', etc."
