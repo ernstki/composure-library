@@ -90,13 +90,13 @@ drollup ()
         # sum up value in COLUMN for DEPTH levels of hierarchy
         {
             split($1, a, "/")
+            if (length(a) < DEPTH) next
             # this will be "." for relative paths; empty string for abs. paths
             hierkey = a[1]
             # append the rest until we have DEPTH levels, separated by slashes
             for (i = 2; i <= DEPTH + 1; i++)
                 hierkey = hierkey "/" a[i]
-            if (TRACE)
-                print hierkey " += " $COLUMN > "/dev/stderr"
+            if (TRACE) print hierkey " += " $COLUMN > "/dev/stderr"
             usages[hierkey] += $COLUMN
         }
 
@@ -108,11 +108,11 @@ drollup ()
         # return "humanized" size in bytes
         function humanize(b) {
             # check to see if b is divisible by next higher prefix
-            if      (b % 1024 == b)    { return b }
-            else if (b % 1024**2 == b) { return sprintf("%0.1fK", b/1024) }
-            else if (b % 1024**3 == b) { return sprintf("%0.1fM", b/1024**2) }
-            else if (b % 1024**4 == b) { return sprintf("%0.1fG", b/1024**3) }
-            else                       { return sprintf("%0.1fT", b/1024**4) }
+            if      (b % 1024 == b)     return b
+            else if (b % 1024**2 == b)  return sprintf("%0.1fK", b/1024)
+            else if (b % 1024**3 == b)  return sprintf("%0.1fM", b/1024**2)
+            else if (b % 1024**4 == b)  return sprintf("%0.1fG", b/1024**3)
+            else                        return sprintf("%0.1fT", b/1024**4)
         }' \
         ${infile:+"$infile"} \
       | $SORT  
