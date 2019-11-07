@@ -13,7 +13,7 @@ drollup ()
 
     local DEFAULT_DEPTH=5
     local DEFAULT_COLUMN=2
-    local DEFAULT_SEP=$'\t'
+    local DEFAULT_SEP='\t'
     local SORT depth column human sep
     local infile
 
