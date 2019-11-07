@@ -13,7 +13,7 @@ drollup ()
 
     local DEFAULT_DEPTH=5
     local DEFAULT_COLUMN=2
-    local DEFAULT_SEP='\t'
+    local DEFAULT_SEP=$'\t'
     local SORT depth column human sep
     local infile
 
@@ -86,12 +86,12 @@ drollup ()
     fi
 
     # give $infile to 'awk' as an argument if it's set; otherwise stdin
-    awk -F"$sep" -vHUMAN="$human" -vDEPTH="$depth" -vCOLUMN="$column" '
+    awk -F "$sep" -v HUMAN="$human" -v DEPTH="$depth" -v COLUMN="$column" '
         # sum up value in COLUMN for DEPTH levels of hierarchy
         {
             split($1, a, "/"); hierkey = a[1]
             # append other path elements up to DEPTH
-            for (i = 2; i <= DEPTH; i++) hierkey = hierkey "/" a[i]
+            for (i = 2; i <= DEPTH + 1; i++) hierkey = hierkey "/" a[i]
             #print hierkey "+=" $COLUMN
             usages[hierkey] += $COLUMN
         }
