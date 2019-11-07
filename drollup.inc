@@ -109,7 +109,6 @@ drollup ()
             else if (b % 1024**3 == b) { return sprintf("%0.1fM", b/1024**2) }
             else if (b % 1024**4 == b) { return sprintf("%0.1fG", b/1024**3) }
             else                       { return sprintf("%0.1fT", b/1024**4) }
-        }' \
-        ${infile:+"$infile"} \
+        }' $infile \
       | $SORT  
 } # drollup
