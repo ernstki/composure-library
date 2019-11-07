@@ -89,10 +89,14 @@ drollup ()
         -v TRACE="$TRACE" '
         # sum up value in COLUMN for DEPTH levels of hierarchy
         {
-            split($1, a, "/"); hierkey = a[1]
-            # append other path elements up to DEPTH
-            for (i = 2; i <= DEPTH + 1; i++) hierkey = hierkey "/" a[i]
-            if (TRACE) print hierkey " += " $COLUMN >/dev/stderr
+            split($1, a, "/")
+            # this will be "." for relative paths; empty string for abs. paths
+            hierkey = a[1]
+            # append the rest until we have DEPTH levels, separated by slashes
+            for (i = 2; i <= DEPTH + 1; i++)
+                hierkey = hierkey "/" a[i]
+            if (TRACE)
+                print hierkey " += " $COLUMN > "/dev/stderr"
             usages[hierkey] += $COLUMN
         }
 
