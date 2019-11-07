@@ -26,7 +26,7 @@ drollup ()
                 return
                 ;;
             -d*|--depth*)
-                if [[ $1 =~ --?d(epth=)?([1-9][0-9]+) ]]; then
+                if [[ $1 =~ --?d(epth=)?([1-9][0-9]*) ]]; then
                     depth=${BASH_REMATCH[2]}
                 else
                     shift; depth=$1
@@ -42,7 +42,7 @@ drollup ()
                 fi
                 ;;
             -c*|--col*)
-                if [[ $1 =~ --?c(ol.*=)?([1-9][0-9]+) ]]; then
+                if [[ $1 =~ --?c(ol.*=)?([1-9][0-9]*) ]]; then
                     column=${BASH_REMATCH[2]}
                 else
                     shift; depth=$1
