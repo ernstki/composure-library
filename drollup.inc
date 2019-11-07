@@ -90,12 +90,13 @@ drollup ()
         # sum up value in COLUMN for DEPTH levels of hierarchy
         {
             split($1, a, "/")
-            if (length(a) < DEPTH) {
+            # Ex.: ./dir1/dir2/dir3 -> [".", "dir1", "dir2", "dir3"]
+            #      /dir1/dir2/dir3  -> ["", "dir1", "dir2", "dir3"]
+            if (length(a) < DEPTH + 1) {
                 if (TRACE)
                     print "Skipping " $1 "; too shallow" > "/dev/stderr"
                 next
             }
-            # this will be "." for relative paths; empty string for abs. paths
             hierkey = a[1]
             # append the rest until we have DEPTH levels, separated by slashes
             for (i = 2; i <= DEPTH + 1; i++)
