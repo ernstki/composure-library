@@ -79,9 +79,9 @@ drollup ()
 
     # change sort key based on '-h' / '--human-readable' option
     if (( human )); then
-      SORT='sort -k1,1 -rh'
+      SORT='sort -k2,2 -rh'
     else
-      SORT='sort -k1,1 -rn'
+      SORT='sort -k2,2 -rn'
     fi
 
     # give $infile to 'awk' as an argument if it's set; otherwise stdin
