@@ -16,6 +16,8 @@ drollup ()
     local DEFAULT_SEP=$'\t'
     local SORT depth column human sep infile
 
+    (( ${TRACE:-} )) && set -x
+
     while (( $# )); do
         case "$1" in
             -\?|--he*)
@@ -88,12 +90,13 @@ drollup ()
             split($1, a, "/"); hierkey = a[1]
             # append other path elements up to DEPTH
             for (i = 2; i <= DEPTH; i++) hierkey = hierkey "/" a[i]
+            print hierkey "+=" $COLUMN
             usages[hierkey] += $COLUMN
         }
 
         END {
             for (key in usages)
-                print (HUMAN ? humanize(usages[key]) : usages[key]) "\t" key
+                print key "\t" (HUMAN ? humanize(usages[key]) : usages[key])
         }
 
         # return "humanized" size in bytes
