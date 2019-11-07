@@ -14,7 +14,8 @@ drollup ()
     local DEFAULT_DEPTH=5
     local DEFAULT_COLUMN=2
     local DEFAULT_SEP=$'\t'
-    local SORT depth column human sep infile
+    local SORT depth column human sep
+    local infile
 
     (( ${TRACE:-} )) && set -x
     set -uo pipefail
@@ -52,7 +53,7 @@ drollup ()
                 human=1
                 ;;
             *)
-                if [[ -r $1 && -f $1 ]]; then
+                if [[ -r $1 ]]; then
                     infile=$1
                 else
                     echo >&2
