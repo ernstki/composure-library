@@ -17,6 +17,7 @@ drollup ()
     local SORT depth column human sep infile
 
     (( ${TRACE:-} )) && set -x
+    set -uo pipefail
 
     while (( $# )); do
         case "$1" in
@@ -74,7 +75,7 @@ drollup ()
 
     [[ -z $depth ]]  && depth=$DEFAULT_DEPTH
     [[ -z $column ]] && column=$DEFAULT_COLUMN
-    [[ -z $sep ]]    && column=$DEFAULT_SEP
+    [[ -z $sep ]]    && sep=$DEFAULT_SEP
 
     # change sort key based on '-h' / '--human-readable' option
     if (( human )); then
@@ -85,7 +86,7 @@ drollup ()
 
     # give $infile to 'awk' as an argument if it's set; otherwise stdin
     awk -F"$sep" -vHUMAN="$human" -vDEPTH="$depth" -vCOLUMN="$column" '
-        # sum up value in COLUMN for DEPTH levesl of hierarchy
+        # sum up value in COLUMN for DEPTH levels of hierarchy
         {
             split($1, a, "/"); hierkey = a[1]
             # append other path elements up to DEPTH
