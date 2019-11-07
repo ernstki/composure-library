@@ -92,7 +92,7 @@ drollup ()
             split($1, a, "/"); hierkey = a[1]
             # append other path elements up to DEPTH
             for (i = 2; i <= DEPTH; i++) hierkey = hierkey "/" a[i]
-            print hierkey "+=" $COLUMN
+            #print hierkey "+=" $COLUMN
             usages[hierkey] += $COLUMN
         }
 
