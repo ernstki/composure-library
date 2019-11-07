@@ -14,8 +14,7 @@ drollup ()
     local DEFAULT_DEPTH=5
     local DEFAULT_COLUMN=2
     local DEFAULT_SEP=$'\t'
-    local SORT depth column human sep
-    local infile
+    local SORT depth column human sep infile
 
     (( ${TRACE:-} )) && set -x
     #set -uo pipefail
@@ -92,7 +91,7 @@ drollup ()
             split($1, a, "/"); hierkey = a[1]
             # append other path elements up to DEPTH
             for (i = 2; i <= DEPTH + 1; i++) hierkey = hierkey "/" a[i]
-            #print hierkey "+=" $COLUMN
+            print hierkey " += " $COLUMN
             usages[hierkey] += $COLUMN
         }
 
