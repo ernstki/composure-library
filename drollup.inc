@@ -92,7 +92,7 @@ drollup ()
             split($1, a, "/")
             if (length(a) < DEPTH) {
                 if (TRACE)
-                    print "Skipping '\''$1'\''; too shallow" > "/dev/stderr"
+                    print "Skipping " $1 "; too shallow" > "/dev/stderr"
                 next
             }
             # this will be "." for relative paths; empty string for abs. paths
