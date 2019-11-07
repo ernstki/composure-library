@@ -85,13 +85,14 @@ drollup ()
     fi
 
     # give $infile to 'awk' as an argument if it's set; otherwise stdin
-    awk -F "$sep" -v HUMAN="$human" -v DEPTH="$depth" -v COLUMN="$column" '
+    awk -F "$sep" -v HUMAN="$human" -v DEPTH="$depth" -v COLUMN="$column" \
+        -v TRACE="$TRACE" '
         # sum up value in COLUMN for DEPTH levels of hierarchy
         {
             split($1, a, "/"); hierkey = a[1]
             # append other path elements up to DEPTH
             for (i = 2; i <= DEPTH + 1; i++) hierkey = hierkey "/" a[i]
-            print hierkey " += " $COLUMN
+            if (TRACE) print hierkey " += " $COLUMN >/dev/stderr
             usages[hierkey] += $COLUMN
         }
 
